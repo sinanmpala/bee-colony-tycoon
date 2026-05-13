@@ -9,30 +9,67 @@
 
   <p>🍯 Honey: <span id="honey">0</span></p>
   <p>💰 Money: $<span id="money">0</span></p>
-  <p>🐝 Worker Bees: <span id="workerBees">1</span></p>
-  <p>✨ Golden Bees: <span id="goldenBees">0</span></p>
   <p>⚡ Production: <span id="production">1</span> honey/sec</p>
 
+  <hr>
+
+  <h2>Bee Colony</h2>
+
+  <p style="color: black;">🐝 Worker Bees: <span id="workerBees">1</span></p>
+  <p style="color: goldenrod;">✨ Golden Bees: <span id="goldenBees">0</span></p>
+  <p style="color: crimson;">🔴 Red Bees: <span id="redBees">0</span></p>
+  <p style="color: royalblue;">🔵 Blue Bees: <span id="blueBees">0</span></p>
+  <p style="color: purple;">🟣 Royal Bees: <span id="royalBees">0</span></p>
+  <p style="color: darkorange;">👑 Queen Bees: <span id="queenBees">0</span></p>
+
+  <hr>
+
+  <h2>Market</h2>
+
   <button onclick="sellHoney()">Sell Honey</button>
+
+  <h3>Buy Bees</h3>
+
   <button onclick="buyWorkerBee()">Buy Worker Bee - $10</button>
   <button onclick="buyGoldenBee()">Buy Golden Bee - $100</button>
+  <button onclick="buyRedBee()">Buy Red Bee - $500</button>
+  <button onclick="buyBlueBee()">Buy Blue Bee - $1500</button>
+  <button onclick="buyRoyalBee()">Buy Royal Bee - $5000</button>
+  <button onclick="buyQueenBee()">Buy Queen Bee - $25000</button>
 
   <script>
     let honey = 0;
     let money = 0;
+
     let workerBees = 1;
     let goldenBees = 0;
+    let redBees = 0;
+    let blueBees = 0;
+    let royalBees = 0;
+    let queenBees = 0;
 
     function getProduction() {
-      return workerBees + (goldenBees * 5);
+      return (
+        workerBees * 1 +
+        goldenBees * 5 +
+        redBees * 20 +
+        blueBees * 50 +
+        royalBees * 150 +
+        queenBees * 500
+      );
     }
 
     function updateScreen() {
       document.getElementById("honey").textContent = honey;
       document.getElementById("money").textContent = money;
+      document.getElementById("production").textContent = getProduction();
+
       document.getElementById("workerBees").textContent = workerBees;
       document.getElementById("goldenBees").textContent = goldenBees;
-      document.getElementById("production").textContent = getProduction();
+      document.getElementById("redBees").textContent = redBees;
+      document.getElementById("blueBees").textContent = blueBees;
+      document.getElementById("royalBees").textContent = royalBees;
+      document.getElementById("queenBees").textContent = queenBees;
     }
 
     function sellHoney() {
@@ -53,6 +90,38 @@
       if (money >= 100) {
         money = money - 100;
         goldenBees = goldenBees + 1;
+        updateScreen();
+      }
+    }
+
+    function buyRedBee() {
+      if (money >= 500) {
+        money = money - 500;
+        redBees = redBees + 1;
+        updateScreen();
+      }
+    }
+
+    function buyBlueBee() {
+      if (money >= 1500) {
+        money = money - 1500;
+        blueBees = blueBees + 1;
+        updateScreen();
+      }
+    }
+
+    function buyRoyalBee() {
+      if (money >= 5000) {
+        money = money - 5000;
+        royalBees = royalBees + 1;
+        updateScreen();
+      }
+    }
+
+    function buyQueenBee() {
+      if (money >= 25000) {
+        money = money - 25000;
+        queenBees = queenBees + 1;
         updateScreen();
       }
     }
