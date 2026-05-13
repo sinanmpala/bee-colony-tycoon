@@ -40,6 +40,24 @@
 
   <div class="message" id="message">Welcome to your bee colony.</div>
 
+  <div class="panel">
+    <h2>Quest</h2>
+    <div class="row">
+      <div>
+        <div class="bee-name">🎯 Current Quest</div>
+        <div class="small" id="questText">Collect 50 honey</div>
+      </div>
+      <button onclick="claimQuest()">Claim</button>
+    </div>
+    <div class="row">
+      <div>
+        <div class="bee-name">⭐ Player Level: <span id="playerLevel">1</span></div>
+        <div class="small">Complete quests to level up.</div>
+      </div>
+      <button disabled>Level</button>
+    </div>
+  </div>
+
   <div class="screen active" id="hiveScreen">
 
     <button class="sell-btn" onclick="collectHoney()">Collect Honey</button>
