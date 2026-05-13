@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #1f3558;
+  background: radial-gradient(circle at top, #335b96, #101b30);
   color: white;
 }
 
@@ -14,11 +14,12 @@ body {
   position: relative;
   border-left: 4px solid #0b1424;
   border-right: 4px solid #0b1424;
+  box-shadow: 0 0 35px rgba(0,0,0,0.65);
 }
 
 .top-bar {
   padding: 18px;
-  background: #20375f;
+  background: linear-gradient(#2d4f83, #172b4d);
   border-bottom: 5px solid #07111f;
 }
 
@@ -27,7 +28,7 @@ body {
   font-weight: bold;
   text-align: center;
   margin-bottom: 15px;
-  text-shadow: 3px 3px #000;
+  text-shadow: 3px 4px 0 #000;
 }
 
 .stats {
@@ -37,13 +38,14 @@ body {
 }
 
 .stat {
-  background: #07111f;
+  background: linear-gradient(#152743, #07111f);
   border: 3px solid #000;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 10px;
   font-size: 17px;
   font-weight: bold;
   text-align: center;
+  box-shadow: inset 0 3px 0 rgba(255,255,255,0.12), 0 5px 0 #02060c;
 }
 
 .save-row {
@@ -54,74 +56,96 @@ body {
 }
 
 .hive-area {
-  height: 310px;
-  background: linear-gradient(#8ed6ff, #dff6ff);
+  height: 320px;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.7), transparent 12%),
+    linear-gradient(#88d7ff, #e5f8ff 55%, #79c46c);
   position: relative;
   border-bottom: 5px solid #07111f;
   overflow: hidden;
+  perspective: 500px;
 }
 
 .sun {
   position: absolute;
   right: 25px;
   top: 25px;
-  font-size: 55px;
+  font-size: 58px;
+  filter: drop-shadow(0 0 15px #fff06a);
 }
 
 .hive {
   position: absolute;
   left: 50%;
   bottom: 35px;
-  transform: translateX(-50%);
-  font-size: 110px;
-  filter: drop-shadow(4px 5px 0 #000);
+  transform: translateX(-50%) rotateX(8deg);
+  font-size: 118px;
+  filter: drop-shadow(0 10px 0 #000) drop-shadow(0 18px 18px rgba(0,0,0,0.45));
 }
 
 .bee {
   position: absolute;
-  font-size: 30px;
-  animation: fly 5s infinite linear;
-  filter: drop-shadow(2px 2px 0 #000);
+  font-size: 34px;
+  animation-name: fly3d;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  filter: drop-shadow(3px 5px 2px rgba(0,0,0,0.55));
+  transform-style: preserve-3d;
 }
 
-.bee.worker { top: 75px; left: -50px; animation-duration: 5s; }
-.bee.golden { top: 135px; left: -70px; animation-duration: 4s; }
-.bee.red { top: 190px; left: -80px; animation-duration: 3.5s; }
-.bee.blue { top: 105px; left: -90px; animation-duration: 3s; }
-.bee.royal { top: 155px; left: -100px; animation-duration: 2.7s; }
-.bee.queen { top: 60px; left: -120px; animation-duration: 2.4s; font-size: 42px; }
+.bee.worker { top: 80px; left: -60px; animation-duration: 4.8s; }
+.bee.golden { top: 135px; left: -85px; animation-duration: 4.1s; }
+.bee.red { top: 200px; left: -90px; animation-duration: 3.6s; }
+.bee.blue { top: 115px; left: -120px; animation-duration: 3.2s; }
+.bee.royal { top: 165px; left: -135px; animation-duration: 2.8s; }
+.bee.queen { top: 55px; left: -150px; animation-duration: 3.9s; font-size: 44px; }
 
-@keyframes fly {
-  0% { transform: translateX(-60px) translateY(0px) rotate(0deg); }
-  25% { transform: translateX(130px) translateY(-30px) rotate(10deg); }
-  50% { transform: translateX(260px) translateY(35px) rotate(-10deg); }
-  75% { transform: translateX(360px) translateY(-20px) rotate(8deg); }
-  100% { transform: translateX(500px) translateY(10px) rotate(0deg); }
+@keyframes fly3d {
+  0% {
+    transform: translateX(-80px) translateY(10px) scale(0.75) rotateZ(-12deg) rotateY(0deg);
+    opacity: 0.7;
+  }
+  18% {
+    transform: translateX(80px) translateY(-35px) scale(1.15) rotateZ(10deg) rotateY(25deg);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(210px) translateY(35px) scale(0.9) rotateZ(-14deg) rotateY(-25deg);
+  }
+  65% {
+    transform: translateX(330px) translateY(-30px) scale(1.25) rotateZ(12deg) rotateY(35deg);
+  }
+  100% {
+    transform: translateX(520px) translateY(20px) scale(0.7) rotateZ(-8deg) rotateY(0deg);
+    opacity: 0.8;
+  }
 }
 
 .message {
   margin: 12px;
   padding: 10px;
-  background: #07111f;
+  background: linear-gradient(#102039, #07111f);
   border: 3px solid #000;
   border-radius: 10px;
   text-align: center;
   font-weight: bold;
+  box-shadow: 0 5px 0 #02060c;
 }
 
 .panel {
   margin: 12px;
-  background: #315f9d;
+  background: linear-gradient(#386db2, #234d83);
   border: 4px solid #050b14;
   border-radius: 14px;
   overflow: hidden;
+  box-shadow: 0 7px 0 #02060c, inset 0 3px 0 rgba(255,255,255,0.12);
 }
 
 .panel h2 {
   margin: 0;
   padding: 12px;
   text-align: center;
-  background: #4d9df0;
+  background: linear-gradient(#67b7ff, #2e79d8);
   color: white;
   text-shadow: 3px 3px #000;
   font-size: 28px;
@@ -153,6 +177,7 @@ body {
   margin-right: 6px;
   font-size: 18px;
   vertical-align: middle;
+  box-shadow: inset 0 4px 0 rgba(255,255,255,0.25), 0 4px 0 #03070d;
 }
 
 .worker-icon { background: linear-gradient(#f9d84a, #c58a00); }
@@ -176,22 +201,35 @@ body {
 button {
   background: linear-gradient(#4cff3f, #0da312);
   border: 4px solid #052708;
-  border-radius: 10px;
+  border-radius: 12px;
   color: white;
   font-size: 15px;
   font-weight: bold;
   padding: 10px;
   text-shadow: 2px 2px #000;
   cursor: pointer;
+  box-shadow: inset 0 3px 0 rgba(255,255,255,0.25), 0 5px 0 #032006;
 }
 
 button:hover {
-  filter: brightness(1.1);
+  filter: brightness(1.12);
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 0 #032006;
 }
 
 .danger-btn {
   background: linear-gradient(#ff6b6b, #b30000);
   border-color: #3b0000;
+  box-shadow: inset 0 3px 0 rgba(255,255,255,0.25), 0 5px 0 #300000;
+}
+
+.quest-ready {
+  background: linear-gradient(#57d7ff, #006ee6) !important;
+  border-color: #002f72 !important;
+  box-shadow: 0 0 18px rgba(87, 215, 255, 0.9), inset 0 3px 0 rgba(255,255,255,0.35), 0 5px 0 #002f72 !important;
 }
 
 .sell-btn {
@@ -222,13 +260,14 @@ button:hover {
   text-align: center;
   padding: 12px 5px;
   font-weight: bold;
-  background: #315f9d;
+  background: linear-gradient(#3c70b7, #234d83);
   border: 0;
   border-right: 3px solid #07111f;
   border-radius: 0;
   text-shadow: 2px 2px #000;
+  box-shadow: none;
 }
 
 .active-tab {
-  background: #4d9df0;
+  background: linear-gradient(#67b7ff, #1b73df);
 }
