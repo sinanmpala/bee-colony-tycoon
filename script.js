@@ -1,4 +1,4 @@
-const SAVE_KEY = "beeColonyTycoonSave";
+const SAVE_KEY = "beeColonyTycoonSaveV2";
 
 let game = {
   honey: 0,
@@ -16,22 +16,24 @@ let game = {
 
   costs: {
     worker: 10,
-    golden: 100,
-    red: 500,
-    blue: 1500,
-    royal: 5000,
-    queen: 25000
+    golden: 80,
+    red: 350,
+    blue: 900,
+    royal: 3000,
+    queen: 12000
   },
 
   hiveLevel: 1,
-  hiveCost: 250,
+  hiveCost: 120,
 
   factories: 0,
-  factoryCost: 2000,
+  factoryCost: 1000,
 
   autoSellers: 0,
-  autoSellerCost: 5000,
+  autoSellerCost: 2500,
 
+  manualPower: 1,
+  totalClicks: 0,
   lastSaved: Date.now()
 };
 
@@ -44,12 +46,17 @@ const beePower = {
   queen: 500
 };
 
+function getEl(id) {
+  return document.getElementById(id);
+}
+
 function formatNumber(number) {
   return Math.floor(number).toLocaleString();
 }
 
 function setMessage(text) {
-  document.getElementById("message").textContent = text;
+  const box = getEl("message");
+  if (box) box.textContent = text;
 }
 
 function getProduction() {
@@ -67,34 +74,58 @@ function getProduction() {
   return Math.floor((beeProduction + factoryProduction) * hiveMultiplier);
 }
 
+function updateText(id, value) {
+  const element = getEl(id);
+  if (element) element.textContent = value;
+}
+
 function updateScreen() {
-  document.getElementById("honey").textContent = formatNumber(game.honey);
-  document.getElementById("money").textContent = formatNumber(game.money);
-  document.getElementById("eggs").textContent = formatNumber(game.eggs);
-  document.getElementById("production").textContent = formatNumber(getProduction());
+  updateText("honey", formatNumber(game.honey));
+  updateText("money", formatNumber(game.money));
+  updateText("eggs", formatNumber(game.eggs));
+  updateText("production", formatNumber(getProduction()));
 
-  document.getElementById("workerBees").textContent = formatNumber(game.bees.worker);
-  document.getElementById("goldenBees").textContent = formatNumber(game.bees.golden);
-  document.getElementById("redBees").textContent = formatNumber(game.bees.red);
-  document.getElementById("blueBees").textContent = formatNumber(game.bees.blue);
-  document.getElementById("royalBees").textContent = formatNumber(game.bees.royal);
-  document.getElementById("queenBees").textContent = formatNumber(game.bees.queen);
+  updateText("workerBees", formatNumber(game.bees.worker));
+  updateText("goldenBees", formatNumber(game.bees.golden));
+  updateText("redBees", formatNumber(game.bees.red));
+  updateText("blueBees", formatNumber(game.bees.blue));
+  updateText("royalBees", formatNumber(game.bees.royal));
+  updateText("queenBees", formatNumber(game.bees.queen));
 
-  document.getElementById("workerCost").textContent = formatNumber(game.costs.worker);
-  document.getElementById("goldenCost").textContent = formatNumber(game.costs.golden);
-  document.getElementById("redCost").textContent = formatNumber(game.costs.red);
-  document.getElementById("blueCost").textContent = formatNumber(game.costs.blue);
-  document.getElementById("royalCost").textContent = formatNumber(game.costs.royal);
-  document.getElementById("queenCost").textContent = formatNumber(game.costs.queen);
+  updateText("workerCost", formatNumber(game.costs.worker));
+  updateText("goldenCost", formatNumber(game.costs.golden));
+  updateText("redCost", formatNumber(game.costs.red));
+  updateText("blueCost", formatNumber(game.costs.blue));
+  updateText("royalCost", formatNumber(game.costs.royal));
+  updateText("queenCost", formatNumber(game.costs.queen));
 
-  document.getElementById("hiveLevel").textContent = game.hiveLevel;
-  document.getElementById("hiveCost").textContent = formatNumber(game.hiveCost);
+  updateText("hiveLevel", formatNumber(game.hiveLevel));
+  updateText("hiveCost", formatNumber(game.hiveCost));
 
-  document.getElementById("factories").textContent = formatNumber(game.factories);
-  document.getElementById("factoryCost").textContent = formatNumber(game.factoryCost);
+  updateText("factories", formatNumber(game.factories));
+  updateText("factoryCost", formatNumber(game.factoryCost));
 
-  document.getElementById("autoSellers").textContent = formatNumber(game.autoSellers);
-  document.getElementById("autoSellerCost").textContent = formatNumber(game.autoSellerCost);
+  updateText("autoSellers", formatNumber(game.autoSellers));
+  updateText("autoSellerCost", formatNumber(game.autoSellerCost));
+}
+
+function collectHoney() {
+  const amount = game.manualPower + game.hiveLevel;
+  game.honey += amount;
+  game.totalClicks += 1;
+
+  if (game.totalClicks === 10) {
+    game.money += 20;
+    setMessage("Quest complete: 10 taps. Reward: $20.");
+  } else if (game.totalClicks === 50) {
+    game.eggs += 1;
+    setMessage("Quest complete: 50 taps. Reward: 1 egg.");
+  } else {
+    setMessage("Collected +" + formatNumber(amount) + " honey.");
+  }
+
+  updateScreen();
+  saveGame(false);
 }
 
 function sellHoney() {
@@ -105,7 +136,7 @@ function sellHoney() {
 
   game.money += game.honey;
   game.honey = 0;
-  setMessage("Honey sold successfully.");
+  setMessage("Honey sold. Buy bees or upgrades.");
   updateScreen();
   saveGame(false);
 }
@@ -135,9 +166,10 @@ function upgradeHive() {
 
   game.money -= game.hiveCost;
   game.hiveLevel += 1;
-  game.hiveCost = Math.floor(game.hiveCost * 1.8);
+  game.manualPower += 1;
+  game.hiveCost = Math.floor(game.hiveCost * 1.75);
 
-  setMessage("Hive upgraded. Production increased.");
+  setMessage("Hive upgraded. Tap power and production increased.");
   updateScreen();
   saveGame(false);
 }
@@ -152,7 +184,7 @@ function buyFactory() {
   game.factories += 1;
   game.factoryCost = Math.floor(game.factoryCost * 1.7);
 
-  setMessage("Factory purchased.");
+  setMessage("Factory purchased. Production increased.");
   updateScreen();
   saveGame(false);
 }
@@ -183,46 +215,44 @@ function hatchEgg() {
   const roll = Math.random() * 100;
   let beeType = "worker";
 
-  if (roll < 45) {
-    beeType = "worker";
-  } else if (roll < 70) {
-    beeType = "golden";
-  } else if (roll < 85) {
-    beeType = "red";
-  } else if (roll < 95) {
-    beeType = "blue";
-  } else if (roll < 99) {
-    beeType = "royal";
-  } else {
-    beeType = "queen";
-  }
+  if (roll < 45) beeType = "worker";
+  else if (roll < 70) beeType = "golden";
+  else if (roll < 85) beeType = "red";
+  else if (roll < 95) beeType = "blue";
+  else if (roll < 99) beeType = "royal";
+  else beeType = "queen";
 
   game.bees[beeType] += 1;
-  setMessage("Egg hatched: " + beeType.toUpperCase() + " Bee!");
+  setMessage("Egg hatched: " + beeType.toUpperCase() + " Bee.");
   updateScreen();
   saveGame(false);
 }
 
 function showScreen(screenName) {
-  document.getElementById("hiveScreen").classList.remove("active");
-  document.getElementById("beesScreen").classList.remove("active");
-  document.getElementById("factoryScreen").classList.remove("active");
+  const screens = ["hive", "bees", "factory"];
 
-  document.getElementById("hiveTab").classList.remove("active-tab");
-  document.getElementById("beesTab").classList.remove("active-tab");
-  document.getElementById("factoryTab").classList.remove("active-tab");
+  screens.forEach(function(name) {
+    const screen = getEl(name + "Screen");
+    const tab = getEl(name + "Tab");
 
-  document.getElementById(screenName + "Screen").classList.add("active");
-  document.getElementById(screenName + "Tab").classList.add("active-tab");
+    if (screen) screen.classList.remove("active");
+    if (tab) tab.classList.remove("active-tab");
+  });
+
+  const selectedScreen = getEl(screenName + "Screen");
+  const selectedTab = getEl(screenName + "Tab");
+
+  if (selectedScreen) selectedScreen.classList.add("active");
+  if (selectedTab) selectedTab.classList.add("active-tab");
+
+  setMessage(screenName.toUpperCase() + " menu opened.");
 }
 
 function saveGame(showMessage = true) {
   game.lastSaved = Date.now();
   localStorage.setItem(SAVE_KEY, JSON.stringify(game));
 
-  if (showMessage) {
-    setMessage("Game saved.");
-  }
+  if (showMessage) setMessage("Game saved.");
 }
 
 function loadGame() {
@@ -230,12 +260,18 @@ function loadGame() {
 
   if (!savedData) {
     updateScreen();
+    setMessage("Start by tapping Sell Honey after collecting honey.");
     return;
   }
 
   try {
     const savedGame = JSON.parse(savedData);
-    game = { ...game, ...savedGame };
+    game = {
+      ...game,
+      ...savedGame,
+      bees: { ...game.bees, ...savedGame.bees },
+      costs: { ...game.costs, ...savedGame.costs }
+    };
 
     const now = Date.now();
     const offlineSeconds = Math.floor((now - game.lastSaved) / 1000);
@@ -244,7 +280,6 @@ function loadGame() {
       const maxOfflineSeconds = Math.min(offlineSeconds, 3600);
       const offlineHoney = getProduction() * maxOfflineSeconds;
       game.honey += offlineHoney;
-
       setMessage("Offline bonus: +" + formatNumber(offlineHoney) + " honey.");
     } else {
       setMessage("Save loaded.");
@@ -253,7 +288,7 @@ function loadGame() {
     updateScreen();
     saveGame(false);
   } catch (error) {
-    setMessage("Save file could not be loaded.");
+    setMessage("Save could not be loaded. Starting new game.");
     updateScreen();
   }
 }
@@ -261,9 +296,7 @@ function loadGame() {
 function resetGame() {
   const confirmReset = confirm("Are you sure you want to reset your game?");
 
-  if (!confirmReset) {
-    return;
-  }
+  if (!confirmReset) return;
 
   localStorage.removeItem(SAVE_KEY);
   location.reload();
@@ -298,4 +331,15 @@ setInterval(function() {
   saveGame(false);
 }, 15000);
 
-loadGame();
+document.addEventListener("DOMContentLoaded", function() {
+  loadGame();
+
+  const hiveArea = getEl("hiveScreen");
+  const hiveVisual = document.querySelector(".hive-area");
+
+  if (hiveVisual) {
+    hiveVisual.addEventListener("click", collectHoney);
+  }
+
+  showScreen("hive");
+});
