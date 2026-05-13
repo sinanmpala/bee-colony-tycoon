@@ -181,11 +181,21 @@ function getCurrentQuestProgress() {
 
 function updateQuestScreen() {
   const quest = quests[game.questIndex];
+  const claimButton = document.querySelector("button[onclick='claimQuest()']");
 
   if (!quest) {
     updateText("questText", "All quests completed. Build your colony.");
+    if (claimButton) claimButton.classList.remove("quest-ready");
   } else {
     updateText("questText", quest.text + " | " + getCurrentQuestProgress() + " | " + quest.rewardText);
+
+    if (claimButton) {
+      if (quest.check()) {
+        claimButton.classList.add("quest-ready");
+      } else {
+        claimButton.classList.remove("quest-ready");
+      }
+    }
   }
 
   updateText("playerLevel", formatNumber(game.playerLevel));
