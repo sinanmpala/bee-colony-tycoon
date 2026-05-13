@@ -33,31 +33,16 @@ body {
 
 .logo-bee {
   display: inline-block;
-  width: 38px;
-  height: 25px;
+  width: 48px;
+  height: 34px;
   margin-right: 6px;
-  position: relative;
   vertical-align: middle;
-  background: linear-gradient(90deg, #ffd84d 0 25%, #2b1b00 25% 40%, #ffd84d 40% 62%, #2b1b00 62% 76%, #ffd84d 76%);
-  border: 3px solid #1b1200;
-  border-radius: 50%;
-  box-shadow: inset 0 5px 0 rgba(255,255,255,0.35), 0 4px 0 rgba(0,0,0,0.4);
+  background-image: url("assets/assets/bee-worker.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(2px 3px 2px rgba(0,0,0,0.55));
 }
-
-.logo-bee::before,
-.logo-bee::after {
-  content: "";
-  position: absolute;
-  top: -12px;
-  width: 17px;
-  height: 15px;
-  background: rgba(225, 250, 255, 0.85);
-  border: 2px solid rgba(30,60,80,0.5);
-  border-radius: 50%;
-}
-
-.logo-bee::before { left: 5px; transform: rotate(-25deg); }
-.logo-bee::after { right: 5px; transform: rotate(25deg); }
 
 .stats {
   display: grid;
@@ -380,65 +365,30 @@ body {
   100% { transform: translateY(-25px) scale(1.5); opacity: 0; }
 }
 
-.bee-fly,
-.mini-bee {
-  position: absolute;
-  width: 34px;
-  height: 24px;
-  background: repeating-linear-gradient(90deg, #ffd84d 0 8px, #2b1b00 8px 13px);
-  border: 3px solid #1b1200;
-  border-radius: 50%;
-  box-shadow: inset 0 5px 0 rgba(255,255,255,0.35), 0 8px 10px rgba(0,0,0,0.35);
-}
-
-.bee-fly::before,
-.bee-fly::after,
-.mini-bee::before,
-.mini-bee::after {
-  content: "";
-  position: absolute;
-  top: -14px;
-  width: 17px;
-  height: 15px;
-  background: rgba(225, 250, 255, 0.9);
-  border: 2px solid rgba(30,60,80,0.5);
-  border-radius: 50%;
-  animation: wingFlap .25s infinite alternate;
-}
-
-.bee-fly::before,
-.mini-bee::before {
-  left: 4px;
-  transform: rotate(-30deg);
-}
-
-.bee-fly::after,
-.mini-bee::after {
-  right: 4px;
-  transform: rotate(30deg);
-}
-
-@keyframes wingFlap {
-  from { transform: translateY(0) scaleY(1) rotate(-20deg); }
-  to { transform: translateY(3px) scaleY(.75) rotate(20deg); }
-}
-
 .bee-fly {
+  position: absolute;
+  width: 70px;
+  height: 48px;
+  background-image: url("assets/assets/bee-worker.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   z-index: 8;
   animation-name: flyBee;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
+  filter: drop-shadow(4px 7px 5px rgba(0,0,0,0.45));
 }
 
-.bee-worker { top: 120px; left: -60px; animation-duration: 5s; }
-.bee-golden { top: 160px; left: -90px; animation-duration: 4.3s; filter: hue-rotate(20deg) brightness(1.2); }
-.bee-red { top: 210px; left: -120px; animation-duration: 3.8s; filter: hue-rotate(310deg) saturate(1.5); }
-.bee-blue { top: 95px; left: -150px; animation-duration: 3.4s; filter: hue-rotate(175deg) saturate(1.6); }
-.bee-royal { top: 180px; left: -165px; animation-duration: 3s; filter: hue-rotate(260deg) saturate(1.5); }
-.bee-queen { top: 65px; left: -180px; animation-duration: 4.1s; transform: scale(1.25); filter: brightness(1.15); }
+.bee-worker { top: 120px; left: -80px; animation-duration: 5s; }
+.bee-golden { top: 160px; left: -100px; animation-duration: 4.3s; filter: hue-rotate(20deg) brightness(1.2) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
+.bee-red { top: 210px; left: -120px; animation-duration: 3.8s; filter: hue-rotate(310deg) saturate(1.5) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
+.bee-blue { top: 95px; left: -150px; animation-duration: 3.4s; filter: hue-rotate(175deg) saturate(1.6) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
+.bee-royal { top: 180px; left: -165px; animation-duration: 3s; filter: hue-rotate(260deg) saturate(1.5) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
+.bee-queen { top: 65px; left: -180px; animation-duration: 4.1s; width: 88px; height: 60px; filter: brightness(1.15) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
 
 @keyframes flyBee {
-  0% { transform: translateX(-80px) translateY(10px) scale(.65) rotate(-10deg); opacity: .6; }
+  0% { transform: translateX(-90px) translateY(10px) scale(.65) rotate(-10deg); opacity: .6; }
   20% { transform: translateX(85px) translateY(-40px) scale(1.05) rotate(12deg); opacity: 1; }
   45% { transform: translateX(210px) translateY(35px) scale(.85) rotate(-16deg); }
   70% { transform: translateX(340px) translateY(-26px) scale(1.15) rotate(10deg); }
@@ -446,12 +396,13 @@ body {
 }
 
 .mini-bee {
-  position: relative;
   display: inline-block;
-  width: 24px;
-  height: 17px;
-  border-width: 2px;
-  transform: scale(.75);
+  width: 30px;
+  height: 22px;
+  background-image: url("assets/assets/bee-worker.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .bee-icon {
@@ -512,13 +463,13 @@ body {
   display: none;
 }
 
-.game.level-1 .bee-fly { transform: scale(.75); }
-.game.level-2 .bee-fly { width: 36px; height: 25px; }
-.game.level-3 .bee-fly { width: 39px; height: 27px; }
-.game.level-4 .bee-fly { width: 42px; height: 29px; }
-.game.level-5 .bee-fly { width: 45px; height: 31px; }
-.game.level-6 .bee-fly { width: 48px; height: 33px; }
-.game.level-7 .bee-fly { width: 51px; height: 35px; }
+.game.level-1 .bee-fly { width: 46px; height: 32px; }
+.game.level-2 .bee-fly { width: 54px; height: 38px; }
+.game.level-3 .bee-fly { width: 60px; height: 42px; }
+.game.level-4 .bee-fly { width: 66px; height: 46px; }
+.game.level-5 .bee-fly { width: 72px; height: 50px; }
+.game.level-6 .bee-fly { width: 78px; height: 54px; }
+.game.level-7 .bee-fly { width: 84px; height: 58px; }
 
 .golden-text { color: gold; }
 .red-text { color: #ff5d5d; }
