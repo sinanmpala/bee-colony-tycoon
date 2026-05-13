@@ -69,11 +69,11 @@ body {
 }
 
 .hive-area {
-  height: 360px;
+  height: 380px;
   position: relative;
   overflow: hidden;
   border-bottom: 5px solid #07111f;
-  perspective: 700px;
+  perspective: 800px;
   background:
     radial-gradient(circle at 78% 16%, rgba(255,245,160,0.95) 0 7%, transparent 13%),
     radial-gradient(circle at 18% 24%, rgba(255,255,255,0.7) 0 5%, transparent 14%),
@@ -112,230 +112,302 @@ body {
   filter: drop-shadow(0 0 18px #fff06a);
 }
 
-.tree {
+.main-hive-stage {
   position: absolute;
-  left: 22px;
-  bottom: 48px;
-  width: 88px;
-  height: 210px;
-  background: linear-gradient(90deg, #5b3214, #9b5a23 45%, #4a260f);
-  border: 4px solid #2a1406;
-  border-radius: 45px 45px 18px 18px;
-  z-index: 3;
-  box-shadow: inset -12px 0 0 rgba(0,0,0,0.18), 0 12px 18px rgba(0,0,0,0.35);
+  inset: 0;
+  z-index: 4;
 }
 
-.tree::before {
-  content: "";
+/* LEVEL 1 NATURAL HIVE */
+.natural-hive {
+  position: absolute;
+  left: 50px;
+  top: 35px;
+  width: 260px;
+  height: 260px;
+  z-index: 5;
+  transition: transform .4s ease, opacity .4s ease;
+}
+
+.branch {
   position: absolute;
   left: -30px;
-  top: -70px;
-  width: 155px;
-  height: 100px;
-  background: radial-gradient(circle, #2f9b47, #0e5d28);
-  border-radius: 50%;
-  border: 4px solid #0b3d1b;
-  box-shadow: 55px 10px 0 #1f873c, -20px 20px 0 #237b35;
+  top: 34px;
+  width: 285px;
+  height: 24px;
+  background: linear-gradient(90deg, #5a2a0d, #a85b22, #4a2108);
+  border-radius: 30px;
+  transform: rotate(-10deg);
+  box-shadow: 0 8px 10px rgba(0,0,0,0.28);
 }
 
-.tree-hole {
+.branch::before {
+  content: "";
   position: absolute;
-  left: 25px;
-  top: 85px;
-  width: 35px;
-  height: 45px;
-  background: radial-gradient(circle, #170a02, #4a240d);
-  border-radius: 50%;
-  border: 4px solid #2b1406;
-  box-shadow: inset 0 0 12px #000;
+  right: 35px;
+  top: -23px;
+  width: 62px;
+  height: 34px;
+  background: linear-gradient(90deg, #87d957, #277a2e);
+  border-radius: 70% 10% 70% 10%;
+  transform: rotate(22deg);
+  border: 3px solid #1f5f24;
 }
 
-.wood-hive {
+.hanging-hive {
   position: absolute;
-  bottom: 55px;
-  width: 82px;
-  height: 72px;
-  z-index: 4;
-  filter: drop-shadow(0 12px 12px rgba(0,0,0,0.4));
+  left: 88px;
+  top: 74px;
+  width: 120px;
+  height: 170px;
+  background:
+    radial-gradient(circle at 38% 24%, #fff1a5 0%, #f5bc48 35%, #c98018 75%, #7b4308 100%);
+  border-radius: 50% 50% 48% 48%;
+  border: 5px solid #8c500f;
+  box-shadow:
+    inset 12px 0 0 rgba(255,255,255,0.15),
+    inset -12px 0 0 rgba(0,0,0,0.14),
+    0 15px 18px rgba(0,0,0,0.35);
 }
 
-.hive-one { left: 145px; }
-.hive-two { left: 245px; }
+.hanging-hive::before {
+  content: "";
+  position: absolute;
+  left: 19px;
+  right: 19px;
+  top: 20px;
+  height: 124px;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 17px,
+      rgba(116,60,7,0.45) 18px 23px
+    );
+  border-radius: 45%;
+}
 
-.hive-roof {
+.hanging-hive::after {
+  content: "";
+  position: absolute;
+  top: -42px;
+  left: 54px;
+  width: 8px;
+  height: 48px;
+  background: #704014;
+  border-radius: 8px;
+}
+
+.bee-entrance {
+  position: absolute;
+  right: 26px;
+  top: 76px;
+  width: 34px;
+  height: 48px;
+  background: radial-gradient(circle, #4a2108, #130701 75%);
+  border-radius: 50%;
+  border: 6px solid #6c3708;
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.85);
+}
+
+/* HIVE BOXES */
+.hive-box-stage {
+  position: absolute;
+  bottom: 58px;
   width: 92px;
-  height: 22px;
-  background: linear-gradient(#b7792d, #6c3b12);
-  border: 4px solid #2b1406;
-  border-radius: 10px;
-  transform: translateX(-5px);
-}
-
-.hive-box {
-  width: 82px;
-  height: 58px;
-  background: repeating-linear-gradient(180deg, #e8a83e 0 14px, #c67a1e 14px 19px);
-  border: 4px solid #2b1406;
-  border-radius: 10px;
-}
-
-.hive-door {
-  position: absolute;
-  left: 28px;
-  bottom: 7px;
-  width: 24px;
-  height: 18px;
-  background: #2b1406;
-  border-radius: 50% 50% 6px 6px;
-}
-
-.honey-table {
-  position: absolute;
-  right: 28px;
-  bottom: 55px;
-  width: 100px;
-  height: 78px;
+  height: 88px;
   z-index: 5;
+  filter: drop-shadow(0 14px 12px rgba(0,0,0,0.42));
+  transition: opacity .4s ease, transform .4s ease;
 }
 
-.table-top {
+.hive-box-stage-1 {
+  left: 165px;
+}
+
+.hive-box-stage-2 {
+  left: 260px;
+}
+
+.box-roof {
   position: absolute;
-  bottom: 30px;
-  width: 100px;
-  height: 14px;
+  top: 0;
+  left: -7px;
+  width: 106px;
+  height: 24px;
+  background: linear-gradient(#f0d7ae, #ad8757);
+  border: 4px solid #5b3920;
+  border-radius: 8px;
+  transform: skewX(-10deg);
+}
+
+.box-body {
+  position: absolute;
+  bottom: 0;
+  width: 92px;
+  height: 67px;
+  background:
+    repeating-linear-gradient(180deg, #e8c59c 0 14px, #c79b67 15px 18px);
+  border: 4px solid #5b3920;
+  border-radius: 6px;
+  box-shadow: inset -10px 0 0 rgba(0,0,0,0.12);
+}
+
+.box-entrance {
+  position: absolute;
+  left: 33px;
+  bottom: 18px;
+  width: 28px;
+  height: 12px;
+  background: #241203;
+  border-radius: 10px;
+  border: 3px solid #6b421d;
+}
+
+/* PROCESSING */
+.processing-station {
+  position: absolute;
+  left: 36px;
+  bottom: 60px;
+  width: 150px;
+  height: 92px;
+  z-index: 6;
+}
+
+.processing-table {
+  position: absolute;
+  bottom: 25px;
+  width: 140px;
+  height: 18px;
   background: linear-gradient(#8f4c19, #4b260b);
   border: 3px solid #1d0b02;
   border-radius: 8px;
 }
 
-.table-top::before,
-.table-top::after {
+.processing-table::before,
+.processing-table::after {
   content: "";
   position: absolute;
-  bottom: -38px;
-  width: 10px;
-  height: 38px;
+  bottom: -42px;
+  width: 12px;
+  height: 42px;
   background: #4b260b;
   border-radius: 6px;
 }
 
-.table-top::before { left: 18px; }
-.table-top::after { right: 18px; }
+.processing-table::before { left: 22px; }
+.processing-table::after { right: 22px; }
 
-.jar {
+.honey-jar,
+.factory-jar {
   position: absolute;
-  bottom: 45px;
-  width: 22px;
-  height: 32px;
+  width: 24px;
+  height: 34px;
   background: linear-gradient(#ffe27a, #d98b00);
   border: 3px solid #5b3200;
-  border-radius: 6px 6px 10px 10px;
-  box-shadow: inset 4px 0 0 rgba(255,255,255,0.25);
+  border-radius: 7px 7px 12px 12px;
+  box-shadow: inset 5px 0 0 rgba(255,255,255,0.25);
 }
 
-.jar-one { left: 25px; }
-.jar-two { left: 55px; }
+.jar-a { left: 28px; bottom: 45px; }
+.jar-b { left: 62px; bottom: 48px; }
+.jar-c { left: 96px; bottom: 45px; }
 
-.worker-person,
-.carrier-person {
+/* BEEKEEPER */
+.beekeeper-station {
   position: absolute;
-  bottom: 54px;
-  width: 34px;
-  height: 76px;
-  z-index: 6;
+  left: 92px;
+  bottom: 60px;
+  width: 55px;
+  height: 100px;
+  z-index: 7;
   animation: workerMove 2.8s infinite ease-in-out;
 }
 
-.worker-person { left: 82px; }
-.carrier-person { right: 12px; animation-duration: 3.5s; }
-
-.person-head {
-  width: 23px;
-  height: 23px;
-  background: #ffd0a0;
-  border: 3px solid #3a1c08;
+.beekeeper-head {
+  width: 34px;
+  height: 34px;
+  background: #ffe5b8;
+  border: 4px solid #5b3920;
   border-radius: 50%;
-  margin-left: 5px;
+  margin-left: 8px;
+  box-shadow: 0 0 0 7px rgba(230,240,255,0.55);
 }
 
-.person-body {
-  width: 30px;
-  height: 40px;
-  background: linear-gradient(#3fb7ff, #005cb8);
-  border: 3px solid #0b1c2e;
+.beekeeper-body {
+  width: 44px;
+  height: 52px;
+  background: linear-gradient(#f7f0d8, #cfc09a);
+  border: 4px solid #5b3920;
+  border-radius: 10px;
+  margin-top: 2px;
+}
+
+.beekeeper-arm {
+  position: absolute;
+  left: 37px;
+  top: 48px;
+  width: 34px;
+  height: 9px;
+  background: #ffe5b8;
+  border: 3px solid #5b3920;
   border-radius: 8px;
+  transform: rotate(-25deg);
 }
 
-.person-arm {
+.beekeeper-tool {
   position: absolute;
-  left: 26px;
-  top: 32px;
-  width: 22px;
-  height: 8px;
-  background: #ffd0a0;
-  border: 2px solid #3a1c08;
-  border-radius: 8px;
-  transform: rotate(-20deg);
+  left: 64px;
+  top: 39px;
+  width: 11px;
+  height: 42px;
+  background: #2c2c2c;
+  border-radius: 5px;
+  transform: rotate(-8deg);
 }
 
-.crate {
+/* FACTORY */
+.factory-station {
   position: absolute;
-  left: 27px;
-  top: 44px;
-  width: 28px;
-  height: 22px;
-  background: linear-gradient(#d79a3c, #8c5416);
-  border: 3px solid #3a1c08;
-  border-radius: 4px;
-}
-
-@keyframes workerMove {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-.mini-factory {
-  position: absolute;
-  right: 78px;
+  right: 26px;
   bottom: 55px;
-  width: 102px;
-  height: 92px;
-  z-index: 4;
+  width: 150px;
+  height: 120px;
+  z-index: 5;
   filter: drop-shadow(0 12px 12px rgba(0,0,0,0.45));
 }
 
-.factory-body {
+.factory-main {
   position: absolute;
   bottom: 0;
-  width: 100px;
-  height: 62px;
-  background: linear-gradient(#8e9aa7, #4b5868);
+  width: 125px;
+  height: 72px;
+  background: linear-gradient(#9ea8b4, #4f5e70);
   border: 4px solid #1b2530;
   border-radius: 10px;
 }
 
-.factory-roof {
+.factory-roof-new {
   position: absolute;
-  bottom: 58px;
-  width: 105px;
-  height: 22px;
+  bottom: 68px;
+  width: 132px;
+  height: 24px;
   background: linear-gradient(#cc4d37, #7b1f18);
   border: 4px solid #1b2530;
   border-radius: 8px;
 }
 
-.factory-pipe {
+.factory-pipe-new {
   position: absolute;
-  right: 14px;
-  bottom: 78px;
-  width: 18px;
-  height: 45px;
+  right: 28px;
+  bottom: 88px;
+  width: 20px;
+  height: 48px;
   background: linear-gradient(#6d7884, #303946);
   border: 4px solid #1b2530;
   border-radius: 8px 8px 0 0;
 }
 
-.factory-pipe::before {
+.factory-pipe-new::before {
   content: "";
   position: absolute;
   top: -18px;
@@ -347,16 +419,37 @@ body {
   animation: smoke 2.4s infinite ease-in-out;
 }
 
-.factory-window {
+.factory-belt {
   position: absolute;
-  left: 22px;
-  bottom: 24px;
-  width: 25px;
-  height: 25px;
-  background: #ffe27a;
-  border: 3px solid #1b2530;
-  border-radius: 6px;
-  box-shadow: 36px 0 0 #ffe27a, 36px 0 0 3px #1b2530;
+  left: -36px;
+  bottom: 9px;
+  width: 125px;
+  height: 20px;
+  background:
+    repeating-linear-gradient(90deg, #202833 0 15px, #354252 15px 25px);
+  border: 4px solid #0d131c;
+  border-radius: 12px;
+}
+
+.factory-jar {
+  bottom: 29px;
+}
+
+.jar-moving-1 {
+  left: -12px;
+  animation: jarMove 2.5s infinite linear;
+}
+
+.jar-moving-2 {
+  left: 35px;
+  animation: jarMove 2.5s infinite linear;
+  animation-delay: 1.2s;
+}
+
+@keyframes jarMove {
+  0% { transform: translateX(-25px); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateX(105px); opacity: 0; }
 }
 
 @keyframes smoke {
@@ -365,6 +458,12 @@ body {
   100% { transform: translateY(-25px) scale(1.5); opacity: 0; }
 }
 
+@keyframes workerMove {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* BEE ASSETS */
 .bee-fly {
   position: absolute;
   width: 70px;
@@ -373,26 +472,44 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  z-index: 8;
-  animation-name: flyBee;
+  z-index: 10;
+  animation-name: flyToHive;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
   filter: drop-shadow(4px 7px 5px rgba(0,0,0,0.45));
 }
 
-.bee-worker { top: 120px; left: -80px; animation-duration: 5s; }
-.bee-golden { top: 160px; left: -100px; animation-duration: 4.3s; filter: hue-rotate(20deg) brightness(1.2) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
-.bee-red { top: 210px; left: -120px; animation-duration: 3.8s; filter: hue-rotate(310deg) saturate(1.5) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
-.bee-blue { top: 95px; left: -150px; animation-duration: 3.4s; filter: hue-rotate(175deg) saturate(1.6) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
-.bee-royal { top: 180px; left: -165px; animation-duration: 3s; filter: hue-rotate(260deg) saturate(1.5) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
-.bee-queen { top: 65px; left: -180px; animation-duration: 4.1s; width: 88px; height: 60px; filter: brightness(1.15) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
+.bee-worker { top: 90px; left: -90px; animation-duration: 4.8s; }
+.bee-golden { top: 135px; left: -120px; animation-duration: 4.2s; filter: hue-rotate(20deg) brightness(1.2) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
+.bee-red { top: 205px; left: -130px; animation-duration: 3.9s; filter: hue-rotate(310deg) saturate(1.5) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
+.bee-blue { top: 105px; left: -155px; animation-duration: 3.4s; filter: hue-rotate(175deg) saturate(1.6) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
+.bee-royal { top: 175px; left: -165px; animation-duration: 3s; filter: hue-rotate(260deg) saturate(1.5) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
+.bee-queen { top: 62px; left: -180px; animation-duration: 4.1s; width: 88px; height: 60px; filter: brightness(1.15) drop-shadow(4px 7px 5px rgba(0,0,0,0.45)); }
 
-@keyframes flyBee {
-  0% { transform: translateX(-90px) translateY(10px) scale(.65) rotate(-10deg); opacity: .6; }
-  20% { transform: translateX(85px) translateY(-40px) scale(1.05) rotate(12deg); opacity: 1; }
-  45% { transform: translateX(210px) translateY(35px) scale(.85) rotate(-16deg); }
-  70% { transform: translateX(340px) translateY(-26px) scale(1.15) rotate(10deg); }
-  100% { transform: translateX(545px) translateY(15px) scale(.65) rotate(-6deg); opacity: .75; }
+@keyframes flyToHive {
+  0% {
+    transform: translateX(-90px) translateY(20px) scale(.62) rotate(-8deg);
+    opacity: .6;
+  }
+  24% {
+    transform: translateX(105px) translateY(-30px) scale(1.05) rotate(10deg);
+    opacity: 1;
+  }
+  52% {
+    transform: translateX(230px) translateY(45px) scale(.86) rotate(-14deg);
+  }
+  74% {
+    transform: translateX(285px) translateY(12px) scale(.55) rotate(5deg);
+    opacity: .8;
+  }
+  82% {
+    transform: translateX(304px) translateY(20px) scale(.25) rotate(0deg);
+    opacity: .2;
+  }
+  100% {
+    transform: translateX(545px) translateY(-8px) scale(.75) rotate(-6deg);
+    opacity: .75;
+  }
 }
 
 .mini-bee {
@@ -425,42 +542,70 @@ body {
 .royal-icon { background: linear-gradient(#d59cff, #6d1bb5); }
 .queen-icon { background: linear-gradient(#ffd66b, #ff7b00); }
 
-.game.level-1 .wood-hive,
-.game.level-1 .honey-table,
-.game.level-1 .worker-person,
-.game.level-1 .carrier-person,
-.game.level-1 .mini-factory {
-  display: none;
+/* LEVEL PROGRESSION */
+.hive-box-stage,
+.processing-station,
+.beekeeper-station,
+.factory-station {
+  opacity: 0;
+  transform: translateY(20px) scale(.85);
+  pointer-events: none;
 }
 
-.game.level-2 .hive-two,
-.game.level-2 .honey-table,
-.game.level-2 .worker-person,
-.game.level-2 .carrier-person,
-.game.level-2 .mini-factory {
-  display: none;
+.game.level-2 .hive-box-stage-1,
+.game.level-3 .hive-box-stage-1,
+.game.level-4 .hive-box-stage-1,
+.game.level-5 .hive-box-stage-1,
+.game.level-6 .hive-box-stage-1,
+.game.level-7 .hive-box-stage-1 {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
-.game.level-3 .honey-table,
-.game.level-3 .worker-person,
-.game.level-3 .carrier-person,
-.game.level-3 .mini-factory {
-  display: none;
+.game.level-3 .hive-box-stage-2,
+.game.level-4 .hive-box-stage-2,
+.game.level-5 .hive-box-stage-2,
+.game.level-6 .hive-box-stage-2,
+.game.level-7 .hive-box-stage-2 {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
-.game.level-4 .worker-person,
-.game.level-4 .carrier-person,
-.game.level-4 .mini-factory {
-  display: none;
+.game.level-4 .processing-station,
+.game.level-5 .processing-station,
+.game.level-6 .processing-station,
+.game.level-7 .processing-station {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
-.game.level-5 .carrier-person,
-.game.level-5 .mini-factory {
-  display: none;
+.game.level-5 .beekeeper-station,
+.game.level-6 .beekeeper-station,
+.game.level-7 .beekeeper-station {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
-.game.level-6 .mini-factory {
-  display: none;
+.game.level-7 .factory-station {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.game.level-1 .natural-hive {
+  transform: scale(.92);
+}
+
+.game.level-2 .natural-hive {
+  transform: scale(1.02);
+}
+
+.game.level-3 .natural-hive,
+.game.level-4 .natural-hive,
+.game.level-5 .natural-hive,
+.game.level-6 .natural-hive,
+.game.level-7 .natural-hive {
+  transform: translateX(-25px) scale(.85);
+  opacity: .95;
 }
 
 .game.level-1 .bee-fly { width: 46px; height: 32px; }
@@ -477,6 +622,7 @@ body {
 .royal-text { color: #d98cff; }
 .queen-text { color: orange; }
 
+/* UI */
 .message {
   margin: 12px;
   padding: 10px;
