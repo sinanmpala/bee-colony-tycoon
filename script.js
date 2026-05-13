@@ -1,535 +1,395 @@
-const SAVE_KEY = "beeColonyTycoonSaveV4";
+const beeImage = "assets/assets/bee-worker.svg";
 
 let game = {
-  honey: 0,
   money: 0,
-  eggs: 0,
+  honey: 0,
+  level: 1,
+  xp: 0,
 
-  bees: {
-    worker: 1,
-    golden: 0,
-    red: 0,
-    blue: 0,
-    royal: 0,
-    queen: 0
-  },
-
-  costs: {
-    worker: 10,
-    golden: 80,
-    red: 350,
-    blue: 900,
-    royal: 3000,
-    queen: 12000
-  },
-
-  hiveLevel: 1,
-  hiveCost: 120,
-
-  factories: 0,
-  factoryCost: 1000,
-
-  autoSellers: 0,
-  autoSellerCost: 2500,
-
-  manualPower: 1,
-  totalClicks: 0,
-  totalHoneyCollected: 0,
-  totalHoneySold: 0,
-  playerLevel: 1,
-  questIndex: 0,
-  lastSaved: Date.now()
-};
-
-const beePower = {
-  worker: 1,
-  golden: 5,
-  red: 20,
-  blue: 50,
-  royal: 150,
-  queen: 500
-};
-
-const quests = [
-  {
-    text: "Collect 25 honey",
-    check: () => game.totalHoneyCollected >= 25,
-    reward: () => {
-      game.money += 25;
+  stages: [
+    {
+      name: "Worker Bee",
+      icon: "🐝",
+      rate: 1,
+      level: 1,
+      price: 50,
+      unlocked: true,
+      color: "#ffd400"
     },
-    rewardText: "Reward: $25"
-  },
-  {
-    text: "Sell 50 honey",
-    check: () => game.totalHoneySold >= 50,
-    reward: () => {
-      game.eggs += 1;
+
+    {
+      name: "Golden Bee",
+      icon: "👑",
+      rate: 5,
+      level: 0,
+      price: 250,
+      unlocked: false,
+      color: "#ffb300"
     },
-    rewardText: "Reward: 1 egg"
-  },
-  {
-    text: "Buy 2 Worker Bees",
-    check: () => game.bees.worker >= 2,
-    reward: () => {
-      game.money += 75;
+
+    {
+      name: "Red Bee",
+      icon: "🔴",
+      rate: 15,
+      level: 0,
+      price: 1000,
+      unlocked: false,
+      color: "#ff4444"
     },
-    rewardText: "Reward: $75"
-  },
-  {
-    text: "Buy 1 Golden Bee",
-    check: () => game.bees.golden >= 1,
-    reward: () => {
-      game.eggs += 1;
+
+    {
+      name: "Blue Bee",
+      icon: "🔵",
+      rate: 40,
+      level: 0,
+      price: 4000,
+      unlocked: false,
+      color: "#57b8ff"
     },
-    rewardText: "Reward: 1 egg"
-  },
-  {
-    text: "Reach Hive Level 2",
-    check: () => game.hiveLevel >= 2,
-    reward: () => {
-      game.money += 200;
+
+    {
+      name: "Royal Bee",
+      icon: "💎",
+      rate: 100,
+      level: 0,
+      price: 15000,
+      unlocked: false,
+      color: "#cf7bff"
     },
-    rewardText: "Reward: $200"
-  },
-  {
-    text: "Buy 1 Factory",
-    check: () => game.factories >= 1,
-    reward: () => {
-      game.eggs += 2;
-    },
-    rewardText: "Reward: 2 eggs"
-  },
-  {
-    text: "Buy 1 Queen Bee",
-    check: () => game.bees.queen >= 1,
-    reward: () => {
-      game.money += 2500;
-      game.eggs += 5;
-    },
-    rewardText: "Reward: $2500 and 5 eggs"
-  }
-];
 
-function getEl(id) {
-  return document.getElementById(id);
-}
-
-function formatNumber(number) {
-  return Math.floor(number).toLocaleString();
-}
-
-function setMessage(text) {
-  const box = getEl("message");
-  if (box) box.textContent = text;
-}
-
-function updateText(id, value) {
-  const element = getEl(id);
-  if (element) element.textContent = value;
-}
-
-function updateGameLevelClass() {
-  const gameBox = document.querySelector(".game");
-  if (!gameBox) return;
-
-  gameBox.classList.remove(
-    "level-1",
-    "level-2",
-    "level-3",
-    "level-4",
-    "level-5",
-    "level-6",
-    "level-7"
-  );
-
-  const levelClass = "level-" + Math.min(game.playerLevel, 7);
-  gameBox.classList.add(levelClass);
-}
-
-function getProduction() {
-  const beeProduction =
-    game.bees.worker * beePower.worker +
-    game.bees.golden * beePower.golden +
-    game.bees.red * beePower.red +
-    game.bees.blue * beePower.blue +
-    game.bees.royal * beePower.royal +
-    game.bees.queen * beePower.queen;
-
-  const factoryProduction = game.factories * 100;
-  const hiveMultiplier = 1 + (game.hiveLevel - 1) * 0.15;
-
-  return Math.floor((beeProduction + factoryProduction) * hiveMultiplier);
-}
-
-function getCurrentQuestProgress() {
-  const quest = quests[game.questIndex];
-
-  if (!quest) return "Completed";
-
-  if (game.questIndex === 0) {
-    return formatNumber(game.totalHoneyCollected) + " / 25 honey";
-  }
-
-  if (game.questIndex === 1) {
-    return formatNumber(game.totalHoneySold) + " / 50 honey sold";
-  }
-
-  if (game.questIndex === 2) {
-    return formatNumber(game.bees.worker) + " / 2 Worker Bees";
-  }
-
-  if (game.questIndex === 3) {
-    return formatNumber(game.bees.golden) + " / 1 Golden Bee";
-  }
-
-  if (game.questIndex === 4) {
-    return "Hive Level " + formatNumber(game.hiveLevel) + " / 2";
-  }
-
-  if (game.questIndex === 5) {
-    return formatNumber(game.factories) + " / 1 Factory";
-  }
-
-  if (game.questIndex === 6) {
-    return formatNumber(game.bees.queen) + " / 1 Queen Bee";
-  }
-
-  return "";
-}
-
-function updateQuestScreen() {
-  const quest = quests[game.questIndex];
-  const claimButton = document.querySelector("button[onclick='claimQuest()']");
-
-  if (!quest) {
-    updateText("questText", "All quests completed. Build your colony.");
-    if (claimButton) claimButton.classList.remove("quest-ready");
-  } else {
-    updateText(
-      "questText",
-      quest.text + " | " + getCurrentQuestProgress() + " | " + quest.rewardText
-    );
-
-    if (claimButton) {
-      if (quest.check()) {
-        claimButton.classList.add("quest-ready");
-      } else {
-        claimButton.classList.remove("quest-ready");
-      }
+    {
+      name: "Queen Bee",
+      icon: "👑",
+      rate: 300,
+      level: 0,
+      price: 50000,
+      unlocked: false,
+      color: "#ff8a00"
     }
-  }
+  ]
+};
 
-  updateText("playerLevel", formatNumber(game.playerLevel));
-}
+/* UI */
 
-function updateScreen() {
-  updateGameLevelClass();
+const stagesContainer = document.getElementById("stagesContainer");
 
-  updateText("honey", formatNumber(game.honey));
-  updateText("money", formatNumber(game.money));
-  updateText("eggs", formatNumber(game.eggs));
-  updateText("production", formatNumber(getProduction()));
+function renderStages(){
 
-  updateText("workerBees", formatNumber(game.bees.worker));
-  updateText("goldenBees", formatNumber(game.bees.golden));
-  updateText("redBees", formatNumber(game.bees.red));
-  updateText("blueBees", formatNumber(game.bees.blue));
-  updateText("royalBees", formatNumber(game.bees.royal));
-  updateText("queenBees", formatNumber(game.bees.queen));
+  stagesContainer.innerHTML = "";
 
-  updateText("workerCost", formatNumber(game.costs.worker));
-  updateText("goldenCost", formatNumber(game.costs.golden));
-  updateText("redCost", formatNumber(game.costs.red));
-  updateText("blueCost", formatNumber(game.costs.blue));
-  updateText("royalCost", formatNumber(game.costs.royal));
-  updateText("queenCost", formatNumber(game.costs.queen));
+  game.stages.forEach((stage,index)=>{
 
-  updateText("hiveLevel", formatNumber(game.hiveLevel));
-  updateText("hiveCost", formatNumber(game.hiveCost));
+    if(!stage.unlocked) return;
 
-  updateText("factories", formatNumber(game.factories));
-  updateText("factoryCost", formatNumber(game.factoryCost));
+    const stageCard = document.createElement("div");
+    stageCard.className = "stageCard";
 
-  updateText("autoSellers", formatNumber(game.autoSellers));
-  updateText("autoSellerCost", formatNumber(game.autoSellerCost));
+    stageCard.innerHTML = `
+      <div class="stageInfo">
 
-  updateQuestScreen();
-}
+        <div class="stageTitle" style="color:${stage.color}">
+          ${stage.icon} Stage ${index+1}
+        </div>
 
-function collectHoney() {
-  const amount = game.manualPower + game.hiveLevel;
+        <div class="stageRate">
+          ${stage.name}
+        </div>
 
-  game.honey += amount;
-  game.totalClicks += 1;
-  game.totalHoneyCollected += amount;
+        <div class="stageRate">
+          Lv. ${stage.level}
+        </div>
 
-  setMessage("Collected +" + formatNumber(amount) + " honey.");
+        <div class="stageRate">
+          +${stage.rate * Math.max(stage.level,1)} honey/sec
+        </div>
 
-  updateScreen();
-  saveGame(false);
-}
+      </div>
 
-function sellHoney() {
-  if (game.honey <= 0) {
-    setMessage("You do not have honey to sell yet.");
-    return;
-  }
+      <div class="honeyGrid">
 
-  const soldAmount = game.honey;
+        <div class="hexPattern"></div>
 
-  game.money += soldAmount;
-  game.totalHoneySold += soldAmount;
-  game.honey = 0;
+        <div class="stageBees" id="bees-${index}">
+        </div>
 
-  setMessage("Sold " + formatNumber(soldAmount) + " honey.");
+      </div>
 
-  updateScreen();
-  saveGame(false);
-}
+      <div class="stageRight">
 
-function buyBee(type) {
-  const cost = game.costs[type];
+        <button class="upgradeBtn"
+          onclick="upgradeStage(${index})">
+          Upgrade
+        </button>
 
-  if (game.money < cost) {
-    setMessage("Not enough money.");
-    return;
-  }
+        <div class="priceTag">
+          $${format(stage.price)}
+        </div>
 
-  game.money -= cost;
-  game.bees[type] += 1;
-  game.costs[type] = Math.floor(cost * 1.25);
+      </div>
+    `;
 
-  setMessage(type.toUpperCase() + " Bee purchased.");
+    stagesContainer.appendChild(stageCard);
 
-  updateScreen();
-  saveGame(false);
-}
+    generateBees(index, stage.level);
 
-function upgradeHive() {
-  if (game.money < game.hiveCost) {
-    setMessage("Not enough money for hive upgrade.");
-    return;
-  }
-
-  game.money -= game.hiveCost;
-  game.hiveLevel += 1;
-  game.manualPower += 1;
-  game.hiveCost = Math.floor(game.hiveCost * 1.75);
-
-  setMessage("Hive upgraded. Tap power and production increased.");
-
-  updateScreen();
-  saveGame(false);
-}
-
-function buyFactory() {
-  if (game.money < game.factoryCost) {
-    setMessage("Not enough money for factory.");
-    return;
-  }
-
-  game.money -= game.factoryCost;
-  game.factories += 1;
-  game.factoryCost = Math.floor(game.factoryCost * 1.7);
-
-  setMessage("Factory purchased. Production increased.");
-
-  updateScreen();
-  saveGame(false);
-}
-
-function buyAutoSeller() {
-  if (game.money < game.autoSellerCost) {
-    setMessage("Not enough money for auto seller.");
-    return;
-  }
-
-  game.money -= game.autoSellerCost;
-  game.autoSellers += 1;
-  game.autoSellerCost = Math.floor(game.autoSellerCost * 2);
-
-  setMessage("Auto seller purchased.");
-
-  updateScreen();
-  saveGame(false);
-}
-
-function hatchEgg() {
-  if (game.eggs < 1) {
-    setMessage("You need at least 1 egg.");
-    return;
-  }
-
-  game.eggs -= 1;
-
-  const roll = Math.random() * 100;
-  let beeType = "worker";
-
-  if (roll < 45) beeType = "worker";
-  else if (roll < 70) beeType = "golden";
-  else if (roll < 85) beeType = "red";
-  else if (roll < 95) beeType = "blue";
-  else if (roll < 99) beeType = "royal";
-  else beeType = "queen";
-
-  game.bees[beeType] += 1;
-
-  setMessage("Egg hatched: " + beeType.toUpperCase() + " Bee.");
-
-  updateScreen();
-  saveGame(false);
-}
-
-function claimQuest() {
-  const quest = quests[game.questIndex];
-
-  if (!quest) {
-    setMessage("All quests are already completed.");
-    return;
-  }
-
-  if (!quest.check()) {
-    setMessage("Quest is not ready yet: " + quest.text);
-    updateScreen();
-    return;
-  }
-
-  quest.reward();
-
-  game.questIndex += 1;
-  game.playerLevel += 1;
-
-  setMessage("LEVEL UP! You reached Level " + game.playerLevel + ".");
-
-  updateScreen();
-  saveGame(false);
-}
-
-function showScreen(screenName) {
-  const screens = ["hive", "bees", "factory"];
-
-  screens.forEach(function(name) {
-    const screen = getEl(name + "Screen");
-    const tab = getEl(name + "Tab");
-
-    if (screen) screen.classList.remove("active");
-    if (tab) tab.classList.remove("active-tab");
   });
 
-  const selectedScreen = getEl(screenName + "Screen");
-  const selectedTab = getEl(screenName + "Tab");
-
-  if (selectedScreen) selectedScreen.classList.add("active");
-  if (selectedTab) selectedTab.classList.add("active-tab");
-
-  setMessage(screenName.toUpperCase() + " menu opened.");
 }
 
-function saveGame(showMessage = true) {
-  game.lastSaved = Date.now();
-  localStorage.setItem(SAVE_KEY, JSON.stringify(game));
+/* BEE GENERATION */
 
-  if (showMessage) setMessage("Game saved.");
-}
+function generateBees(index, level){
 
-function loadGame() {
-  const savedData = localStorage.getItem(SAVE_KEY);
+  const container = document.getElementById(`bees-${index}`);
 
-  if (!savedData) {
-    updateScreen();
-    setMessage("Start by collecting honey.");
-    return;
+  if(!container) return;
+
+  container.innerHTML = "";
+
+  let beeCount = Math.min(25, Math.max(4, level * 2));
+
+  for(let i=0;i<beeCount;i++){
+
+    const bee = document.createElement("div");
+
+    bee.className = "gameBee";
+
+    bee.style.backgroundImage = `url(${beeImage})`;
+
+    bee.style.left = Math.random() * 85 + "%";
+    bee.style.top = Math.random() * 70 + "%";
+
+    bee.style.animationDelay =
+      Math.random() * 4 + "s";
+
+    bee.style.animationDuration =
+      2 + Math.random() * 4 + "s";
+
+    bee.style.transform =
+      `scale(${0.5 + Math.random()})`;
+
+    bee.style.filter =
+      `hue-rotate(${index * 45}deg)
+       drop-shadow(0 0 10px rgba(255,196,0,.35))`;
+
+    container.appendChild(bee);
+
   }
 
-  try {
-    const savedGame = JSON.parse(savedData);
+}
 
-    game = {
-      ...game,
-      ...savedGame,
-      bees: { ...game.bees, ...savedGame.bees },
-      costs: { ...game.costs, ...savedGame.costs }
-    };
+/* UPGRADE */
 
-    const now = Date.now();
-    const offlineSeconds = Math.floor((now - game.lastSaved) / 1000);
+function upgradeStage(index){
 
-    if (offlineSeconds > 5) {
-      const maxOfflineSeconds = Math.min(offlineSeconds, 3600);
-      const offlineHoney = getProduction() * maxOfflineSeconds;
+  let stage = game.stages[index];
 
-      game.honey += offlineHoney;
-      game.totalHoneyCollected += offlineHoney;
+  if(game.money < stage.price) return;
 
-      setMessage("Offline bonus: +" + formatNumber(offlineHoney) + " honey.");
-    } else {
-      setMessage("Save loaded.");
+  game.money -= stage.price;
+
+  stage.level++;
+
+  game.xp += 10;
+
+  stage.price = Math.floor(stage.price * 1.7);
+
+  /* unlock next */
+
+  if(index + 1 < game.stages.length){
+
+    if(stage.level >= 5){
+
+      game.stages[index + 1].unlocked = true;
+
+      if(game.stages[index + 1].level === 0){
+        game.stages[index + 1].level = 1;
+      }
+
     }
 
-    updateScreen();
-    saveGame(false);
-  } catch (error) {
-    setMessage("Save could not be loaded. Starting new game.");
-    updateScreen();
   }
+
+  updateLevel();
+
+  render();
+
 }
 
-function resetGame() {
-  const confirmReset = confirm("Are you sure you want to reset your game?");
+/* PLAYER LEVEL */
 
-  if (!confirmReset) return;
+function updateLevel(){
 
-  localStorage.removeItem(SAVE_KEY);
-  location.reload();
+  if(game.xp >= game.level * 100){
+
+    game.xp = 0;
+
+    game.level++;
+
+  }
+
 }
 
-setInterval(function() {
-  const production = getProduction();
+/* PRODUCTION */
 
-  game.honey += production;
-  game.totalHoneyCollected += production;
+function gameLoop(){
 
-  updateScreen();
-}, 1000);
+  let total = 0;
 
-setInterval(function() {
-  if (game.bees.queen > 0) {
-    game.eggs += game.bees.queen;
+  game.stages.forEach(stage=>{
 
-    setMessage("Queen Bee produced eggs.");
+    if(stage.unlocked){
 
-    updateScreen();
-    saveGame(false);
+      total +=
+        stage.rate *
+        Math.max(stage.level,1);
+
+    }
+
+  });
+
+  game.honey += total / 10;
+
+  game.money += total / 20;
+
+  renderTop();
+
+}
+
+/* TOP */
+
+function renderTop(){
+
+  document.getElementById("moneyText")
+    .innerText =
+    "$" + format(Math.floor(game.money));
+
+  document.getElementById("honeyText")
+    .innerText =
+    format(Math.floor(game.honey));
+
+  document.getElementById("levelText")
+    .innerText =
+    game.level;
+
+  document.getElementById("xpFill")
+    .style.width =
+    (game.xp / (game.level * 100) * 100) + "%";
+
+}
+
+/* MAIN RENDER */
+
+function render(){
+
+  renderTop();
+
+  renderStages();
+
+}
+
+/* FORMAT */
+
+function format(num){
+
+  if(num >= 1000000){
+
+    return (num / 1000000).toFixed(1) + "M";
+
   }
-}, 10000);
 
-setInterval(function() {
-  if (game.autoSellers > 0 && game.honey > 0) {
-    const amountToSell = Math.floor(game.honey * Math.min(0.25 * game.autoSellers, 1));
+  if(num >= 1000){
 
-    game.honey -= amountToSell;
-    game.money += amountToSell;
-    game.totalHoneySold += amountToSell;
+    return (num / 1000).toFixed(1) + "K";
 
-    setMessage("Auto seller sold " + formatNumber(amountToSell) + " honey.");
-
-    updateScreen();
-    saveGame(false);
-  }
-}, 5000);
-
-setInterval(function() {
-  saveGame(false);
-}, 15000);
-
-document.addEventListener("DOMContentLoaded", function() {
-  loadGame();
-
-  const hiveVisual = document.querySelector(".hive-area");
-
-  if (hiveVisual) {
-    hiveVisual.addEventListener("click", collectHoney);
   }
 
-  showScreen("hive");
-});
+  return num;
+
+}
+
+/* PARTICLE BEES */
+
+function createParticleBees(){
+
+  const container =
+    document.getElementById("beeParticles");
+
+  for(let i=0;i<14;i++){
+
+    const bee =
+      document.createElement("div");
+
+    bee.className = "particleBee";
+
+    bee.style.backgroundImage =
+      `url(${beeImage})`;
+
+    bee.style.top =
+      Math.random() * 100 + "vh";
+
+    bee.style.left =
+      (-100 - Math.random() * 400) + "px";
+
+    bee.style.animationDuration =
+      10 + Math.random() * 20 + "s";
+
+    bee.style.animationDelay =
+      Math.random() * 10 + "s";
+
+    bee.style.transform =
+      `scale(${0.3 + Math.random()})`;
+
+    bee.style.filter =
+      `hue-rotate(${Math.random()*360}deg)
+       opacity(.7)`;
+
+    container.appendChild(bee);
+
+  }
+
+}
+
+/* SAVE */
+
+function saveGame(){
+
+  localStorage.setItem(
+    "beeFactorySave",
+    JSON.stringify(game)
+  );
+
+}
+
+/* LOAD */
+
+function loadGame(){
+
+  const save =
+    localStorage.getItem("beeFactorySave");
+
+  if(save){
+
+    game = JSON.parse(save);
+
+  }
+
+}
+
+/* AUTO SAVE */
+
+setInterval(()=>{
+
+  saveGame();
+
+},5000);
+
+/* START */
+
+loadGame();
+
+render();
+
+createParticleBees();
+
+setInterval(gameLoop,100);
