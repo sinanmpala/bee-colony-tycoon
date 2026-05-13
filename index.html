@@ -1,217 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bee Colony Tycoon</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
 
-<div class="game">
+  <!-- TOP BAR -->
+  <div class="topBar">
 
-  <div class="top-bar">
-    <div class="title"><span class="logo-bee"></span> Bee Colony Tycoon</div>
-
-    <div class="stats">
-      <div class="stat">🍯 Honey<br><span id="honey">0</span></div>
-      <div class="stat">💰 Money<br>$<span id="money">0</span></div>
-      <div class="stat">⚡ Per Sec<br><span id="production">1</span></div>
-      <div class="stat">🥚 Eggs<br><span id="eggs">0</span></div>
+    <div class="topCard">
+      <div class="topLabel">💰 Money</div>
+      <div id="moneyText">$0</div>
     </div>
 
-    <div class="save-row">
-      <button onclick="saveGame()">Save Game</button>
-      <button class="danger-btn" onclick="resetGame()">Reset</button>
+    <div class="topCard">
+      <div class="topLabel">🍯 Honey</div>
+      <div id="honeyText">0</div>
     </div>
+
+    <div class="topCard levelCard">
+      <div class="topLabel">LEVEL</div>
+      <div id="levelText">1</div>
+
+      <div class="xpBar">
+        <div id="xpFill"></div>
+      </div>
+    </div>
+
   </div>
 
-  <div class="hive-area">
-    <div class="sky-glow"></div>
-    <div class="sun">☀️</div>
 
-    <div class="main-hive-stage">
-      <div class="natural-hive">
-        <div class="branch"></div>
-        <div class="hanging-hive">
-          <div class="bee-entrance"></div>
-        </div>
-      </div>
 
-      <div class="hive-box-stage hive-box-stage-1">
-        <div class="box-roof"></div>
-        <div class="box-body"></div>
-        <div class="box-entrance"></div>
-      </div>
+  <!-- FACTORY AREA -->
+  <div class="factoryArea">
 
-      <div class="hive-box-stage hive-box-stage-2">
-        <div class="box-roof"></div>
-        <div class="box-body"></div>
-        <div class="box-entrance"></div>
-      </div>
+    <!-- LEFT PIPE -->
+    <div class="leftPipe">
 
-      <div class="processing-station">
-        <div class="processing-table"></div>
-        <div class="honey-jar jar-a"></div>
-        <div class="honey-jar jar-b"></div>
-        <div class="honey-jar jar-c"></div>
-      </div>
+      <div class="pipeGlow"></div>
 
-      <div class="beekeeper-station">
-        <div class="beekeeper-head"></div>
-        <div class="beekeeper-body"></div>
-        <div class="beekeeper-arm"></div>
-        <div class="beekeeper-tool"></div>
-      </div>
+      <div class="pipeIcon">🐝</div>
+      <div class="pipeIcon">🍯</div>
+      <div class="pipeIcon">👑</div>
+      <div class="pipeIcon">💎</div>
 
-      <div class="factory-station">
-        <div class="factory-main"></div>
-        <div class="factory-roof-new"></div>
-        <div class="factory-pipe-new"></div>
-        <div class="factory-belt"></div>
-        <div class="factory-jar jar-moving-1"></div>
-        <div class="factory-jar jar-moving-2"></div>
-      </div>
     </div>
 
-    <div class="bee-fly bee-worker"></div>
-    <div class="bee-fly bee-golden"></div>
-    <div class="bee-fly bee-red"></div>
-    <div class="bee-fly bee-blue"></div>
-    <div class="bee-fly bee-royal"></div>
-    <div class="bee-fly bee-queen"></div>
-  </div>
 
-  <div class="message" id="message">Welcome to your bee colony.</div>
 
-  <div class="panel">
-    <h2>Quest</h2>
-    <div class="row">
-      <div>
-        <div class="bee-name">🎯 Current Quest</div>
-        <div class="small" id="questText">Collect 25 honey</div>
+    <!-- MAIN FACTORY -->
+    <div class="factoryMain">
+
+      <!-- MACHINE -->
+      <div class="machineSection">
+
+        <div class="machineBox">
+
+          <div class="machineTop"></div>
+
+          <div class="machineFront">
+            <div class="honeyDrop">🍯</div>
+          </div>
+
+        </div>
+
+        <div class="conveyor">
+
+          <div class="jar"></div>
+          <div class="jar"></div>
+          <div class="jar"></div>
+          <div class="jar"></div>
+          <div class="jar"></div>
+
+        </div>
+
       </div>
-      <button onclick="claimQuest()">Claim</button>
+
+
+
+      <!-- STAGES -->
+      <div id="stagesContainer">
+
+      </div>
+
     </div>
-    <div class="row">
-      <div>
-        <div class="bee-name">⭐ Player Level: <span id="playerLevel">1</span></div>
-        <div class="small">Complete quests to grow your colony.</div>
-      </div>
-      <button disabled>Level</button>
-    </div>
+
   </div>
 
-  <div class="screen active" id="hiveScreen">
-    <button class="sell-btn" onclick="collectHoney()">Collect Honey</button>
-    <button class="sell-btn" onclick="sellHoney()">Sell Honey</button>
 
-    <div class="panel">
-      <h2>Hive Upgrades</h2>
 
-      <div class="row">
-        <div>
-          <div class="bee-name">🏠 Hive Level: <span id="hiveLevel">1</span></div>
-          <div class="small">Each level increases all honey production.</div>
-        </div>
-        <button onclick="upgradeHive()">Upgrade<br>$<span id="hiveCost">250</span></button>
-      </div>
+  <!-- BOTTOM NAV -->
+  <div class="bottomNav">
 
-      <div class="row">
-        <div>
-          <div class="bee-name">🥚 Hatch Egg</div>
-          <div class="small">Use 1 egg to hatch a random bee.</div>
-        </div>
-        <button onclick="hatchEgg()">Hatch</button>
-      </div>
-    </div>
+    <button class="navBtn active">
+      🏭
+      <span>Factory</span>
+    </button>
+
+    <button class="navBtn">
+      🐝
+      <span>Bees</span>
+    </button>
+
+    <button class="navBtn">
+      ⚡
+      <span>Boosters</span>
+    </button>
+
+    <button class="navBtn">
+      🛒
+      <span>Shop</span>
+    </button>
+
   </div>
 
-  <div class="screen" id="beesScreen">
-    <div class="panel">
-      <h2>Bee Market</h2>
 
-      <div class="row">
-        <div>
-          <div class="bee-name"><span class="bee-icon worker-icon"><span class="mini-bee"></span></span>Worker Bee: <span id="workerBees">1</span></div>
-          <div class="small">+1 honey/sec</div>
-        </div>
-        <button onclick="buyBee('worker')">$<span id="workerCost">10</span></button>
-      </div>
 
-      <div class="row">
-        <div>
-          <div class="bee-name golden-text"><span class="bee-icon golden-icon"><span class="mini-bee"></span></span>Golden Bee: <span id="goldenBees">0</span></div>
-          <div class="small">+5 honey/sec</div>
-        </div>
-        <button onclick="buyBee('golden')">$<span id="goldenCost">100</span></button>
-      </div>
+  <!-- FLOATING BEES -->
+  <div id="beeParticles"></div>
 
-      <div class="row">
-        <div>
-          <div class="bee-name red-text"><span class="bee-icon red-icon"><span class="mini-bee"></span></span>Red Bee: <span id="redBees">0</span></div>
-          <div class="small">+20 honey/sec</div>
-        </div>
-        <button onclick="buyBee('red')">$<span id="redCost">500</span></button>
-      </div>
-
-      <div class="row">
-        <div>
-          <div class="bee-name blue-text"><span class="bee-icon blue-icon"><span class="mini-bee"></span></span>Blue Bee: <span id="blueBees">0</span></div>
-          <div class="small">+50 honey/sec</div>
-        </div>
-        <button onclick="buyBee('blue')">$<span id="blueCost">1500</span></button>
-      </div>
-
-      <div class="row">
-        <div>
-          <div class="bee-name royal-text"><span class="bee-icon royal-icon"><span class="mini-bee"></span></span>Royal Bee: <span id="royalBees">0</span></div>
-          <div class="small">+150 honey/sec</div>
-        </div>
-        <button onclick="buyBee('royal')">$<span id="royalCost">5000</span></button>
-      </div>
-
-      <div class="row">
-        <div>
-          <div class="bee-name queen-text"><span class="bee-icon queen-icon">👑</span>Queen Bee: <span id="queenBees">0</span></div>
-          <div class="small">+500 honey/sec. Produces eggs every 10 seconds.</div>
-        </div>
-        <button onclick="buyBee('queen')">$<span id="queenCost">25000</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="screen" id="factoryScreen">
-    <div class="panel">
-      <h2>Factory</h2>
-
-      <div class="row">
-        <div>
-          <div class="bee-name">🏭 Honey Factory: <span id="factories">0</span></div>
-          <div class="small">Each factory gives +100 honey/sec.</div>
-        </div>
-        <button onclick="buyFactory()">Buy<br>$<span id="factoryCost">2000</span></button>
-      </div>
-
-      <div class="row">
-        <div>
-          <div class="bee-name">💵 Auto Seller: <span id="autoSellers">0</span></div>
-          <div class="small">Automatically sells honey every 5 seconds.</div>
-        </div>
-        <button onclick="buyAutoSeller()">Buy<br>$<span id="autoSellerCost">5000</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <button class="tab active-tab" id="hiveTab" onclick="showScreen('hive')">🏠 Hive</button>
-    <button class="tab" id="beesTab" onclick="showScreen('bees')">🐝 Bees</button>
-    <button class="tab" id="factoryTab" onclick="showScreen('factory')">🏭 Factory</button>
-  </div>
-
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 
 </body>
 </html>
