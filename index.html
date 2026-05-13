@@ -10,21 +10,29 @@
   <p>🍯 Honey: <span id="honey">0</span></p>
   <p>💰 Money: $<span id="money">0</span></p>
   <p>🐝 Worker Bees: <span id="workerBees">1</span></p>
+  <p>✨ Golden Bees: <span id="goldenBees">0</span></p>
   <p>⚡ Production: <span id="production">1</span> honey/sec</p>
 
   <button onclick="sellHoney()">Sell Honey</button>
   <button onclick="buyWorkerBee()">Buy Worker Bee - $10</button>
+  <button onclick="buyGoldenBee()">Buy Golden Bee - $100</button>
 
   <script>
     let honey = 0;
     let money = 0;
     let workerBees = 1;
+    let goldenBees = 0;
+
+    function getProduction() {
+      return workerBees + (goldenBees * 5);
+    }
 
     function updateScreen() {
       document.getElementById("honey").textContent = honey;
       document.getElementById("money").textContent = money;
       document.getElementById("workerBees").textContent = workerBees;
-      document.getElementById("production").textContent = workerBees;
+      document.getElementById("goldenBees").textContent = goldenBees;
+      document.getElementById("production").textContent = getProduction();
     }
 
     function sellHoney() {
@@ -41,8 +49,16 @@
       }
     }
 
+    function buyGoldenBee() {
+      if (money >= 100) {
+        money = money - 100;
+        goldenBees = goldenBees + 1;
+        updateScreen();
+      }
+    }
+
     setInterval(function() {
-      honey = honey + workerBees;
+      honey = honey + getProduction();
       updateScreen();
     }, 1000);
 
