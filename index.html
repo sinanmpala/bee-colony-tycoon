@@ -12,8 +12,42 @@
   <p>🐝 Worker Bees: <span id="workerBees">1</span></p>
   <p>⚡ Production: <span id="production">1</span> honey/sec</p>
 
-  <button>Sell Honey</button>
-  <button>Buy Worker Bee - $10</button>
+  <button onclick="sellHoney()">Sell Honey</button>
+  <button onclick="buyWorkerBee()">Buy Worker Bee - $10</button>
+
+  <script>
+    let honey = 0;
+    let money = 0;
+    let workerBees = 1;
+
+    function updateScreen() {
+      document.getElementById("honey").textContent = honey;
+      document.getElementById("money").textContent = money;
+      document.getElementById("workerBees").textContent = workerBees;
+      document.getElementById("production").textContent = workerBees;
+    }
+
+    function sellHoney() {
+      money = money + honey;
+      honey = 0;
+      updateScreen();
+    }
+
+    function buyWorkerBee() {
+      if (money >= 10) {
+        money = money - 10;
+        workerBees = workerBees + 1;
+        updateScreen();
+      }
+    }
+
+    setInterval(function() {
+      honey = honey + workerBees;
+      updateScreen();
+    }, 1000);
+
+    updateScreen();
+  </script>
 
 </body>
 </html>
