@@ -2,137 +2,382 @@
 <html>
 <head>
   <title>Bee Colony Tycoon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #1f3558;
+      color: white;
+    }
+
+    .game {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: linear-gradient(#263f68, #16243d);
+      overflow: hidden;
+      position: relative;
+      border-left: 4px solid #0b1424;
+      border-right: 4px solid #0b1424;
+    }
+
+    .top-bar {
+      padding: 18px;
+      background: #20375f;
+      border-bottom: 5px solid #07111f;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 15px;
+      text-shadow: 3px 3px #000;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat {
+      background: #07111f;
+      border: 3px solid #000;
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .hive-area {
+      height: 310px;
+      background: linear-gradient(#8ed6ff, #dff6ff);
+      position: relative;
+      border-bottom: 5px solid #07111f;
+      overflow: hidden;
+    }
+
+    .sun {
+      position: absolute;
+      right: 25px;
+      top: 25px;
+      font-size: 55px;
+    }
+
+    .hive {
+      position: absolute;
+      left: 50%;
+      bottom: 35px;
+      transform: translateX(-50%);
+      font-size: 110px;
+      filter: drop-shadow(4px 5px 0 #000);
+    }
+
+    .bee {
+      position: absolute;
+      font-size: 30px;
+      animation: fly 5s infinite linear;
+      filter: drop-shadow(2px 2px 0 #000);
+    }
+
+    .bee.worker { top: 75px; left: -50px; animation-duration: 5s; }
+    .bee.golden { top: 135px; left: -70px; animation-duration: 4s; color: gold; }
+    .bee.red { top: 190px; left: -80px; animation-duration: 3.5s; }
+    .bee.blue { top: 105px; left: -90px; animation-duration: 3s; }
+    .bee.royal { top: 155px; left: -100px; animation-duration: 2.7s; }
+    .bee.queen { top: 60px; left: -120px; animation-duration: 2.4s; font-size: 42px; }
+
+    @keyframes fly {
+      0% {
+        transform: translateX(-60px) translateY(0px) rotate(0deg);
+      }
+      25% {
+        transform: translateX(130px) translateY(-30px) rotate(10deg);
+      }
+      50% {
+        transform: translateX(260px) translateY(35px) rotate(-10deg);
+      }
+      75% {
+        transform: translateX(360px) translateY(-20px) rotate(8deg);
+      }
+      100% {
+        transform: translateX(500px) translateY(10px) rotate(0deg);
+      }
+    }
+
+    .panel {
+      margin: 12px;
+      background: #315f9d;
+      border: 4px solid #050b14;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .panel h2 {
+      margin: 0;
+      padding: 12px;
+      text-align: center;
+      background: #4d9df0;
+      color: white;
+      text-shadow: 3px 3px #000;
+      font-size: 28px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: 8px;
+      align-items: center;
+      padding: 10px;
+      border-top: 3px solid #1f3f70;
+    }
+
+    .bee-name {
+      font-size: 19px;
+      font-weight: bold;
+      text-shadow: 2px 2px #000;
+    }
+
+    .small {
+      font-size: 13px;
+      opacity: 0.95;
+    }
+
+    button {
+      background: linear-gradient(#4cff3f, #0da312);
+      border: 4px solid #052708;
+      border-radius: 10px;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 10px;
+      text-shadow: 2px 2px #000;
+    }
+
+    .sell-btn {
+      width: calc(100% - 24px);
+      margin: 12px;
+      font-size: 20px;
+    }
+
+    .footer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      position: sticky;
+      bottom: 0;
+      background: #0b1424;
+      border-top: 4px solid #000;
+    }
+
+    .tab {
+      text-align: center;
+      padding: 12px 5px;
+      font-weight: bold;
+      background: #315f9d;
+      border-right: 3px solid #07111f;
+      text-shadow: 2px 2px #000;
+    }
+  </style>
 </head>
+
 <body>
 
-  <h1>🐝 Bee Colony Tycoon</h1>
+<div class="game">
 
-  <p>🍯 Honey: <span id="honey">0</span></p>
-  <p>💰 Money: $<span id="money">0</span></p>
-  <p>⚡ Production: <span id="production">1</span> honey/sec</p>
+  <div class="top-bar">
+    <div class="title">🐝 Bee Colony Tycoon</div>
 
-  <hr>
+    <div class="stats">
+      <div class="stat">🍯 Honey<br><span id="honey">0</span></div>
+      <div class="stat">💰 Money<br>$<span id="money">0</span></div>
+      <div class="stat">⚡ Per Sec<br><span id="production">1</span></div>
+      <div class="stat">🥚 Eggs<br><span id="eggs">0</span></div>
+    </div>
+  </div>
 
-  <h2>Bee Colony</h2>
+  <div class="hive-area">
+    <div class="sun">☀️</div>
+    <div class="hive">🍯</div>
 
-  <p style="color: black;">🐝 Worker Bees: <span id="workerBees">1</span></p>
-  <p style="color: goldenrod;">✨ Golden Bees: <span id="goldenBees">0</span></p>
-  <p style="color: crimson;">🔴 Red Bees: <span id="redBees">0</span></p>
-  <p style="color: royalblue;">🔵 Blue Bees: <span id="blueBees">0</span></p>
-  <p style="color: purple;">🟣 Royal Bees: <span id="royalBees">0</span></p>
-  <p style="color: darkorange;">👑 Queen Bees: <span id="queenBees">0</span></p>
+    <div class="bee worker">🐝</div>
+    <div class="bee golden">🐝</div>
+    <div class="bee red">🔴🐝</div>
+    <div class="bee blue">🔵🐝</div>
+    <div class="bee royal">🟣🐝</div>
+    <div class="bee queen">👑🐝</div>
+  </div>
 
-  <hr>
+  <button class="sell-btn" onclick="sellHoney()">Sell Honey</button>
 
-  <h2>Market</h2>
+  <div class="panel">
+    <h2>Bee Market</h2>
 
-  <button onclick="sellHoney()">Sell Honey</button>
+    <div class="row">
+      <div>
+        <div class="bee-name">🐝 Worker Bee: <span id="workerBees">1</span></div>
+        <div class="small">+1 honey/sec</div>
+      </div>
+      <button onclick="buyWorkerBee()">$10</button>
+    </div>
 
-  <h3>Buy Bees</h3>
+    <div class="row">
+      <div>
+        <div class="bee-name" style="color: gold;">✨ Golden Bee: <span id="goldenBees">0</span></div>
+        <div class="small">+5 honey/sec</div>
+      </div>
+      <button onclick="buyGoldenBee()">$100</button>
+    </div>
 
-  <button onclick="buyWorkerBee()">Buy Worker Bee - $10</button>
-  <button onclick="buyGoldenBee()">Buy Golden Bee - $100</button>
-  <button onclick="buyRedBee()">Buy Red Bee - $500</button>
-  <button onclick="buyBlueBee()">Buy Blue Bee - $1500</button>
-  <button onclick="buyRoyalBee()">Buy Royal Bee - $5000</button>
-  <button onclick="buyQueenBee()">Buy Queen Bee - $25000</button>
+    <div class="row">
+      <div>
+        <div class="bee-name" style="color: #ff5d5d;">🔴 Red Bee: <span id="redBees">0</span></div>
+        <div class="small">+20 honey/sec</div>
+      </div>
+      <button onclick="buyRedBee()">$500</button>
+    </div>
 
-  <script>
-    let honey = 0;
-    let money = 0;
+    <div class="row">
+      <div>
+        <div class="bee-name" style="color: #65b7ff;">🔵 Blue Bee: <span id="blueBees">0</span></div>
+        <div class="small">+50 honey/sec</div>
+      </div>
+      <button onclick="buyBlueBee()">$1500</button>
+    </div>
 
-    let workerBees = 1;
-    let goldenBees = 0;
-    let redBees = 0;
-    let blueBees = 0;
-    let royalBees = 0;
-    let queenBees = 0;
+    <div class="row">
+      <div>
+        <div class="bee-name" style="color: #d98cff;">🟣 Royal Bee: <span id="royalBees">0</span></div>
+        <div class="small">+150 honey/sec</div>
+      </div>
+      <button onclick="buyRoyalBee()">$5000</button>
+    </div>
 
-    function getProduction() {
-      return (
-        workerBees * 1 +
-        goldenBees * 5 +
-        redBees * 20 +
-        blueBees * 50 +
-        royalBees * 150 +
-        queenBees * 500
-      );
-    }
+    <div class="row">
+      <div>
+        <div class="bee-name" style="color: orange;">👑 Queen Bee: <span id="queenBees">0</span></div>
+        <div class="small">+500 honey/sec and unlocks eggs</div>
+      </div>
+      <button onclick="buyQueenBee()">$25000</button>
+    </div>
+  </div>
 
-    function updateScreen() {
-      document.getElementById("honey").textContent = honey;
-      document.getElementById("money").textContent = money;
-      document.getElementById("production").textContent = getProduction();
+  <div class="footer">
+    <div class="tab">🏠 Hive</div>
+    <div class="tab">🐝 Bees</div>
+    <div class="tab">🏭 Factory</div>
+  </div>
 
-      document.getElementById("workerBees").textContent = workerBees;
-      document.getElementById("goldenBees").textContent = goldenBees;
-      document.getElementById("redBees").textContent = redBees;
-      document.getElementById("blueBees").textContent = blueBees;
-      document.getElementById("royalBees").textContent = royalBees;
-      document.getElementById("queenBees").textContent = queenBees;
-    }
+</div>
 
-    function sellHoney() {
-      money = money + honey;
-      honey = 0;
-      updateScreen();
-    }
+<script>
+  let honey = 0;
+  let money = 0;
+  let eggs = 0;
 
-    function buyWorkerBee() {
-      if (money >= 10) {
-        money = money - 10;
-        workerBees = workerBees + 1;
-        updateScreen();
-      }
-    }
+  let workerBees = 1;
+  let goldenBees = 0;
+  let redBees = 0;
+  let blueBees = 0;
+  let royalBees = 0;
+  let queenBees = 0;
 
-    function buyGoldenBee() {
-      if (money >= 100) {
-        money = money - 100;
-        goldenBees = goldenBees + 1;
-        updateScreen();
-      }
-    }
+  function getProduction() {
+    return (
+      workerBees * 1 +
+      goldenBees * 5 +
+      redBees * 20 +
+      blueBees * 50 +
+      royalBees * 150 +
+      queenBees * 500
+    );
+  }
 
-    function buyRedBee() {
-      if (money >= 500) {
-        money = money - 500;
-        redBees = redBees + 1;
-        updateScreen();
-      }
-    }
+  function updateScreen() {
+    document.getElementById("honey").textContent = Math.floor(honey);
+    document.getElementById("money").textContent = Math.floor(money);
+    document.getElementById("production").textContent = getProduction();
+    document.getElementById("eggs").textContent = eggs;
 
-    function buyBlueBee() {
-      if (money >= 1500) {
-        money = money - 1500;
-        blueBees = blueBees + 1;
-        updateScreen();
-      }
-    }
+    document.getElementById("workerBees").textContent = workerBees;
+    document.getElementById("goldenBees").textContent = goldenBees;
+    document.getElementById("redBees").textContent = redBees;
+    document.getElementById("blueBees").textContent = blueBees;
+    document.getElementById("royalBees").textContent = royalBees;
+    document.getElementById("queenBees").textContent = queenBees;
+  }
 
-    function buyRoyalBee() {
-      if (money >= 5000) {
-        money = money - 5000;
-        royalBees = royalBees + 1;
-        updateScreen();
-      }
-    }
-
-    function buyQueenBee() {
-      if (money >= 25000) {
-        money = money - 25000;
-        queenBees = queenBees + 1;
-        updateScreen();
-      }
-    }
-
-    setInterval(function() {
-      honey = honey + getProduction();
-      updateScreen();
-    }, 1000);
-
+  function sellHoney() {
+    money = money + honey;
+    honey = 0;
     updateScreen();
-  </script>
+  }
+
+  function buyWorkerBee() {
+    if (money >= 10) {
+      money -= 10;
+      workerBees++;
+      updateScreen();
+    }
+  }
+
+  function buyGoldenBee() {
+    if (money >= 100) {
+      money -= 100;
+      goldenBees++;
+      updateScreen();
+    }
+  }
+
+  function buyRedBee() {
+    if (money >= 500) {
+      money -= 500;
+      redBees++;
+      updateScreen();
+    }
+  }
+
+  function buyBlueBee() {
+    if (money >= 1500) {
+      money -= 1500;
+      blueBees++;
+      updateScreen();
+    }
+  }
+
+  function buyRoyalBee() {
+    if (money >= 5000) {
+      money -= 5000;
+      royalBees++;
+      updateScreen();
+    }
+  }
+
+  function buyQueenBee() {
+    if (money >= 25000) {
+      money -= 25000;
+      queenBees++;
+      updateScreen();
+    }
+  }
+
+  setInterval(function() {
+    honey += getProduction();
+    updateScreen();
+  }, 1000);
+
+  setInterval(function() {
+    if (queenBees > 0) {
+      eggs += queenBees;
+      updateScreen();
+    }
+  }, 10000);
+
+  updateScreen();
+</script>
 
 </body>
 </html>
