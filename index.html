@@ -85,28 +85,18 @@
     }
 
     .bee.worker { top: 75px; left: -50px; animation-duration: 5s; }
-    .bee.golden { top: 135px; left: -70px; animation-duration: 4s; color: gold; }
+    .bee.golden { top: 135px; left: -70px; animation-duration: 4s; }
     .bee.red { top: 190px; left: -80px; animation-duration: 3.5s; }
     .bee.blue { top: 105px; left: -90px; animation-duration: 3s; }
     .bee.royal { top: 155px; left: -100px; animation-duration: 2.7s; }
     .bee.queen { top: 60px; left: -120px; animation-duration: 2.4s; font-size: 42px; }
 
     @keyframes fly {
-      0% {
-        transform: translateX(-60px) translateY(0px) rotate(0deg);
-      }
-      25% {
-        transform: translateX(130px) translateY(-30px) rotate(10deg);
-      }
-      50% {
-        transform: translateX(260px) translateY(35px) rotate(-10deg);
-      }
-      75% {
-        transform: translateX(360px) translateY(-20px) rotate(8deg);
-      }
-      100% {
-        transform: translateX(500px) translateY(10px) rotate(0deg);
-      }
+      0% { transform: translateX(-60px) translateY(0px) rotate(0deg); }
+      25% { transform: translateX(130px) translateY(-30px) rotate(10deg); }
+      50% { transform: translateX(260px) translateY(35px) rotate(-10deg); }
+      75% { transform: translateX(360px) translateY(-20px) rotate(8deg); }
+      100% { transform: translateX(500px) translateY(10px) rotate(0deg); }
     }
 
     .panel {
@@ -141,6 +131,26 @@
       font-weight: bold;
       text-shadow: 2px 2px #000;
     }
+
+    .bee-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 3px solid #050b14;
+      margin-right: 6px;
+      font-size: 18px;
+      vertical-align: middle;
+    }
+
+    .worker-icon { background: linear-gradient(#f9d84a, #c58a00); }
+    .golden-icon { background: linear-gradient(#fff176, #f7a600); }
+    .red-icon { background: linear-gradient(#ff7777, #c40000); }
+    .blue-icon { background: linear-gradient(#79c7ff, #0057c8); }
+    .royal-icon { background: linear-gradient(#d59cff, #6d1bb5); }
+    .queen-icon { background: linear-gradient(#ffd66b, #ff7b00); }
 
     .small {
       font-size: 13px;
@@ -204,7 +214,7 @@
     <div class="hive">🍯</div>
 
     <div class="bee worker">🐝</div>
-    <div class="bee golden">🐝</div>
+    <div class="bee golden">🌟🐝</div>
     <div class="bee red">🔴🐝</div>
     <div class="bee blue">🔵🐝</div>
     <div class="bee royal">🟣🐝</div>
@@ -218,7 +228,7 @@
 
     <div class="row">
       <div>
-        <div class="bee-name">🐝 Worker Bee: <span id="workerBees">1</span></div>
+        <div class="bee-name"><span class="bee-icon worker-icon">🐝</span>Worker Bee: <span id="workerBees">1</span></div>
         <div class="small">+1 honey/sec</div>
       </div>
       <button onclick="buyWorkerBee()">$10</button>
@@ -226,7 +236,7 @@
 
     <div class="row">
       <div>
-        <div class="bee-name" style="color: gold;">✨ Golden Bee: <span id="goldenBees">0</span></div>
+        <div class="bee-name" style="color: gold;"><span class="bee-icon golden-icon">🐝</span>Golden Bee: <span id="goldenBees">0</span></div>
         <div class="small">+5 honey/sec</div>
       </div>
       <button onclick="buyGoldenBee()">$100</button>
@@ -234,7 +244,7 @@
 
     <div class="row">
       <div>
-        <div class="bee-name" style="color: #ff5d5d;">🔴 Red Bee: <span id="redBees">0</span></div>
+        <div class="bee-name" style="color: #ff5d5d;"><span class="bee-icon red-icon">🐝</span>Red Bee: <span id="redBees">0</span></div>
         <div class="small">+20 honey/sec</div>
       </div>
       <button onclick="buyRedBee()">$500</button>
@@ -242,7 +252,7 @@
 
     <div class="row">
       <div>
-        <div class="bee-name" style="color: #65b7ff;">🔵 Blue Bee: <span id="blueBees">0</span></div>
+        <div class="bee-name" style="color: #65b7ff;"><span class="bee-icon blue-icon">🐝</span>Blue Bee: <span id="blueBees">0</span></div>
         <div class="small">+50 honey/sec</div>
       </div>
       <button onclick="buyBlueBee()">$1500</button>
@@ -250,7 +260,7 @@
 
     <div class="row">
       <div>
-        <div class="bee-name" style="color: #d98cff;">🟣 Royal Bee: <span id="royalBees">0</span></div>
+        <div class="bee-name" style="color: #d98cff;"><span class="bee-icon royal-icon">🐝</span>Royal Bee: <span id="royalBees">0</span></div>
         <div class="small">+150 honey/sec</div>
       </div>
       <button onclick="buyRoyalBee()">$5000</button>
@@ -258,7 +268,7 @@
 
     <div class="row">
       <div>
-        <div class="bee-name" style="color: orange;">👑 Queen Bee: <span id="queenBees">0</span></div>
+        <div class="bee-name" style="color: orange;"><span class="bee-icon queen-icon">👑</span>Queen Bee: <span id="queenBees">0</span></div>
         <div class="small">+500 honey/sec and unlocks eggs</div>
       </div>
       <button onclick="buyQueenBee()">$25000</button>
