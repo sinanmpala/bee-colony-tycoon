@@ -1,4 +1,4 @@
-const SAVE_KEY = "beeColonyTycoonSaveV3";
+const SAVE_KEY = "beeColonyTycoonSaveV4";
 
 let game = {
   honey: 0,
@@ -52,52 +52,52 @@ const beePower = {
 
 const quests = [
   {
-    text: "Collect 50 honey",
-    check: () => game.totalHoneyCollected >= 50,
+    text: "Collect 25 honey",
+    check: () => game.totalHoneyCollected >= 25,
     reward: () => {
       game.money += 25;
-      setMessage("Quest complete. Reward: $25.");
-    }
+    },
+    rewardText: "Reward: $25"
   },
   {
-    text: "Sell 100 honey",
-    check: () => game.totalHoneySold >= 100,
+    text: "Sell 50 honey",
+    check: () => game.totalHoneySold >= 50,
     reward: () => {
       game.eggs += 1;
-      setMessage("Quest complete. Reward: 1 egg.");
-    }
+    },
+    rewardText: "Reward: 1 egg"
   },
   {
-    text: "Buy 3 Worker Bees",
-    check: () => game.bees.worker >= 3,
+    text: "Buy 2 Worker Bees",
+    check: () => game.bees.worker >= 2,
     reward: () => {
       game.money += 75;
-      setMessage("Quest complete. Reward: $75.");
-    }
+    },
+    rewardText: "Reward: $75"
   },
   {
     text: "Buy 1 Golden Bee",
     check: () => game.bees.golden >= 1,
     reward: () => {
       game.eggs += 1;
-      setMessage("Quest complete. Reward: 1 egg.");
-    }
+    },
+    rewardText: "Reward: 1 egg"
   },
   {
     text: "Reach Hive Level 2",
     check: () => game.hiveLevel >= 2,
     reward: () => {
       game.money += 200;
-      setMessage("Quest complete. Reward: $200.");
-    }
+    },
+    rewardText: "Reward: $200"
   },
   {
     text: "Buy 1 Factory",
     check: () => game.factories >= 1,
     reward: () => {
       game.eggs += 2;
-      setMessage("Quest complete. Reward: 2 eggs.");
-    }
+    },
+    rewardText: "Reward: 2 eggs"
   },
   {
     text: "Buy 1 Queen Bee",
@@ -105,8 +105,8 @@ const quests = [
     reward: () => {
       game.money += 2500;
       game.eggs += 5;
-      setMessage("Quest complete. Reward: $2500 and 5 eggs.");
-    }
+    },
+    rewardText: "Reward: $2500 and 5 eggs"
   }
 ];
 
@@ -121,6 +121,11 @@ function formatNumber(number) {
 function setMessage(text) {
   const box = getEl("message");
   if (box) box.textContent = text;
+}
+
+function updateText(id, value) {
+  const element = getEl(id);
+  if (element) element.textContent = value;
 }
 
 function getProduction() {
@@ -138,9 +143,40 @@ function getProduction() {
   return Math.floor((beeProduction + factoryProduction) * hiveMultiplier);
 }
 
-function updateText(id, value) {
-  const element = getEl(id);
-  if (element) element.textContent = value;
+function getCurrentQuestProgress() {
+  const quest = quests[game.questIndex];
+
+  if (!quest) return "Completed";
+
+  if (game.questIndex === 0) {
+    return formatNumber(game.totalHoneyCollected) + " / 25 honey";
+  }
+
+  if (game.questIndex === 1) {
+    return formatNumber(game.totalHoneySold) + " / 50 honey sold";
+  }
+
+  if (game.questIndex === 2) {
+    return formatNumber(game.bees.worker) + " / 2 Worker Bees";
+  }
+
+  if (game.questIndex === 3) {
+    return formatNumber(game.bees.golden) + " / 1 Golden Bee";
+  }
+
+  if (game.questIndex === 4) {
+    return "Hive Level " + formatNumber(game.hiveLevel) + " / 2";
+  }
+
+  if (game.questIndex === 5) {
+    return formatNumber(game.factories) + " / 1 Factory";
+  }
+
+  if (game.questIndex === 6) {
+    return formatNumber(game.bees.queen) + " / 1 Queen Bee";
+  }
+
+  return "";
 }
 
 function updateQuestScreen() {
@@ -149,7 +185,7 @@ function updateQuestScreen() {
   if (!quest) {
     updateText("questText", "All quests completed. Build your colony.");
   } else {
-    updateText("questText", quest.text);
+    updateText("questText", quest.text + " | " + getCurrentQuestProgress() + " | " + quest.rewardText);
   }
 
   updateText("playerLevel", formatNumber(game.playerLevel));
@@ -189,6 +225,7 @@ function updateScreen() {
 
 function collectHoney() {
   const amount = game.manualPower + game.hiveLevel;
+
   game.honey += amount;
   game.totalClicks += 1;
   game.totalHoneyCollected += amount;
@@ -205,11 +242,14 @@ function sellHoney() {
     return;
   }
 
-  game.money += game.honey;
-  game.totalHoneySold += game.honey;
+  const soldAmount = game.honey;
+
+  game.money += soldAmount;
+  game.totalHoneySold += soldAmount;
   game.honey = 0;
 
-  setMessage("Honey sold. Buy bees or upgrades.");
+  setMessage("Sold " + formatNumber(soldAmount) + " honey.");
+
   updateScreen();
   saveGame(false);
 }
@@ -227,6 +267,7 @@ function buyBee(type) {
   game.costs[type] = Math.floor(cost * 1.25);
 
   setMessage(type.toUpperCase() + " Bee purchased.");
+
   updateScreen();
   saveGame(false);
 }
@@ -243,6 +284,7 @@ function upgradeHive() {
   game.hiveCost = Math.floor(game.hiveCost * 1.75);
 
   setMessage("Hive upgraded. Tap power and production increased.");
+
   updateScreen();
   saveGame(false);
 }
@@ -258,6 +300,7 @@ function buyFactory() {
   game.factoryCost = Math.floor(game.factoryCost * 1.7);
 
   setMessage("Factory purchased. Production increased.");
+
   updateScreen();
   saveGame(false);
 }
@@ -273,6 +316,7 @@ function buyAutoSeller() {
   game.autoSellerCost = Math.floor(game.autoSellerCost * 2);
 
   setMessage("Auto seller purchased.");
+
   updateScreen();
   saveGame(false);
 }
@@ -296,7 +340,9 @@ function hatchEgg() {
   else beeType = "queen";
 
   game.bees[beeType] += 1;
+
   setMessage("Egg hatched: " + beeType.toUpperCase() + " Bee.");
+
   updateScreen();
   saveGame(false);
 }
@@ -310,13 +356,17 @@ function claimQuest() {
   }
 
   if (!quest.check()) {
-    setMessage("Quest is not completed yet.");
+    setMessage("Quest is not ready yet: " + quest.text);
+    updateScreen();
     return;
   }
 
   quest.reward();
+
   game.questIndex += 1;
   game.playerLevel += 1;
+
+  setMessage("LEVEL UP! You reached Level " + game.playerLevel + ".");
 
   updateScreen();
   saveGame(false);
@@ -374,8 +424,10 @@ function loadGame() {
     if (offlineSeconds > 5) {
       const maxOfflineSeconds = Math.min(offlineSeconds, 3600);
       const offlineHoney = getProduction() * maxOfflineSeconds;
+
       game.honey += offlineHoney;
       game.totalHoneyCollected += offlineHoney;
+
       setMessage("Offline bonus: +" + formatNumber(offlineHoney) + " honey.");
     } else {
       setMessage("Save loaded.");
@@ -400,15 +452,19 @@ function resetGame() {
 
 setInterval(function() {
   const production = getProduction();
+
   game.honey += production;
   game.totalHoneyCollected += production;
+
   updateScreen();
 }, 1000);
 
 setInterval(function() {
   if (game.bees.queen > 0) {
     game.eggs += game.bees.queen;
+
     setMessage("Queen Bee produced eggs.");
+
     updateScreen();
     saveGame(false);
   }
@@ -417,10 +473,13 @@ setInterval(function() {
 setInterval(function() {
   if (game.autoSellers > 0 && game.honey > 0) {
     const amountToSell = Math.floor(game.honey * Math.min(0.25 * game.autoSellers, 1));
+
     game.honey -= amountToSell;
     game.money += amountToSell;
     game.totalHoneySold += amountToSell;
+
     setMessage("Auto seller sold " + formatNumber(amountToSell) + " honey.");
+
     updateScreen();
     saveGame(false);
   }
