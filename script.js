@@ -128,6 +128,24 @@ function updateText(id, value) {
   if (element) element.textContent = value;
 }
 
+function updateGameLevelClass() {
+  const gameBox = document.querySelector(".game");
+  if (!gameBox) return;
+
+  gameBox.classList.remove(
+    "level-1",
+    "level-2",
+    "level-3",
+    "level-4",
+    "level-5",
+    "level-6",
+    "level-7"
+  );
+
+  const levelClass = "level-" + Math.min(game.playerLevel, 7);
+  gameBox.classList.add(levelClass);
+}
+
 function getProduction() {
   const beeProduction =
     game.bees.worker * beePower.worker +
@@ -187,7 +205,10 @@ function updateQuestScreen() {
     updateText("questText", "All quests completed. Build your colony.");
     if (claimButton) claimButton.classList.remove("quest-ready");
   } else {
-    updateText("questText", quest.text + " | " + getCurrentQuestProgress() + " | " + quest.rewardText);
+    updateText(
+      "questText",
+      quest.text + " | " + getCurrentQuestProgress() + " | " + quest.rewardText
+    );
 
     if (claimButton) {
       if (quest.check()) {
@@ -202,6 +223,8 @@ function updateQuestScreen() {
 }
 
 function updateScreen() {
+  updateGameLevelClass();
+
   updateText("honey", formatNumber(game.honey));
   updateText("money", formatNumber(game.money));
   updateText("eggs", formatNumber(game.eggs));
