@@ -11,7 +11,7 @@
 <div class="game">
 
   <div class="top-bar">
-    <div class="title">🐝 Bee Colony Tycoon</div>
+    <div class="title"><span class="logo-bee"></span> Bee Colony Tycoon</div>
 
     <div class="stats">
       <div class="stat">🍯 Honey<br><span id="honey">0</span></div>
@@ -27,15 +27,57 @@
   </div>
 
   <div class="hive-area">
+    <div class="sky-glow"></div>
     <div class="sun">☀️</div>
-    <div class="hive">🍯</div>
 
-    <div class="bee worker">🐝</div>
-    <div class="bee golden">🌟🐝</div>
-    <div class="bee red">🔴🐝</div>
-    <div class="bee blue">🔵🐝</div>
-    <div class="bee royal">🟣🐝</div>
-    <div class="bee queen">👑🐝</div>
+    <div class="tree">
+      <div class="tree-hole"></div>
+    </div>
+
+    <div class="wood-hive hive-one">
+      <div class="hive-roof"></div>
+      <div class="hive-box"></div>
+      <div class="hive-door"></div>
+    </div>
+
+    <div class="wood-hive hive-two">
+      <div class="hive-roof"></div>
+      <div class="hive-box"></div>
+      <div class="hive-door"></div>
+    </div>
+
+    <div class="honey-table">
+      <div class="table-top"></div>
+      <div class="jar jar-one"></div>
+      <div class="jar jar-two"></div>
+    </div>
+
+    <div class="worker-person">
+      <div class="person-head"></div>
+      <div class="person-body"></div>
+      <div class="person-arm"></div>
+    </div>
+
+    <div class="carrier-person">
+      <div class="person-head"></div>
+      <div class="person-body"></div>
+      <div class="person-arm"></div>
+      <div class="crate"></div>
+    </div>
+
+    <div class="mini-factory">
+      <div class="factory-body"></div>
+      <div class="factory-roof"></div>
+      <div class="factory-pipe"></div>
+      <div class="factory-window"></div>
+    </div>
+
+    <div class="bee-fly bee-worker"></div>
+    <div class="bee-fly bee-golden"></div>
+    <div class="bee-fly bee-red"></div>
+    <div class="bee-fly bee-blue"></div>
+    <div class="bee-fly bee-royal"></div>
+    <div class="bee-fly bee-queen"></div>
   </div>
 
   <div class="message" id="message">Welcome to your bee colony.</div>
@@ -45,14 +87,14 @@
     <div class="row">
       <div>
         <div class="bee-name">🎯 Current Quest</div>
-        <div class="small" id="questText">Collect 50 honey</div>
+        <div class="small" id="questText">Collect 25 honey</div>
       </div>
       <button onclick="claimQuest()">Claim</button>
     </div>
     <div class="row">
       <div>
         <div class="bee-name">⭐ Player Level: <span id="playerLevel">1</span></div>
-        <div class="small">Complete quests to level up.</div>
+        <div class="small">Complete quests to grow your colony.</div>
       </div>
       <button disabled>Level</button>
     </div>
@@ -90,7 +132,7 @@
 
       <div class="row">
         <div>
-          <div class="bee-name"><span class="bee-icon worker-icon">🐝</span>Worker Bee: <span id="workerBees">1</span></div>
+          <div class="bee-name"><span class="bee-icon worker-icon"><span class="mini-bee"></span></span>Worker Bee: <span id="workerBees">1</span></div>
           <div class="small">+1 honey/sec</div>
         </div>
         <button onclick="buyBee('worker')">$<span id="workerCost">10</span></button>
@@ -98,7 +140,7 @@
 
       <div class="row">
         <div>
-          <div class="bee-name golden-text"><span class="bee-icon golden-icon">🐝</span>Golden Bee: <span id="goldenBees">0</span></div>
+          <div class="bee-name golden-text"><span class="bee-icon golden-icon"><span class="mini-bee"></span></span>Golden Bee: <span id="goldenBees">0</span></div>
           <div class="small">+5 honey/sec</div>
         </div>
         <button onclick="buyBee('golden')">$<span id="goldenCost">100</span></button>
@@ -106,7 +148,7 @@
 
       <div class="row">
         <div>
-          <div class="bee-name red-text"><span class="bee-icon red-icon">🐝</span>Red Bee: <span id="redBees">0</span></div>
+          <div class="bee-name red-text"><span class="bee-icon red-icon"><span class="mini-bee"></span></span>Red Bee: <span id="redBees">0</span></div>
           <div class="small">+20 honey/sec</div>
         </div>
         <button onclick="buyBee('red')">$<span id="redCost">500</span></button>
@@ -114,7 +156,7 @@
 
       <div class="row">
         <div>
-          <div class="bee-name blue-text"><span class="bee-icon blue-icon">🐝</span>Blue Bee: <span id="blueBees">0</span></div>
+          <div class="bee-name blue-text"><span class="bee-icon blue-icon"><span class="mini-bee"></span></span>Blue Bee: <span id="blueBees">0</span></div>
           <div class="small">+50 honey/sec</div>
         </div>
         <button onclick="buyBee('blue')">$<span id="blueCost">1500</span></button>
@@ -122,7 +164,7 @@
 
       <div class="row">
         <div>
-          <div class="bee-name royal-text"><span class="bee-icon royal-icon">🐝</span>Royal Bee: <span id="royalBees">0</span></div>
+          <div class="bee-name royal-text"><span class="bee-icon royal-icon"><span class="mini-bee"></span></span>Royal Bee: <span id="royalBees">0</span></div>
           <div class="small">+150 honey/sec</div>
         </div>
         <button onclick="buyBee('royal')">$<span id="royalCost">5000</span></button>
