@@ -1,291 +1,188 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, Helvetica, sans-serif;
-}
-
 body{
+  margin:0;
   background:#050505;
   color:white;
-  overflow-x:hidden;
-  min-height:100vh;
+  font-family:Arial,sans-serif;
 }
 
-/* TOP BAR */
+.topBar,.factoryArea,.bottomNav{
+  max-width:430px;
+  margin:auto;
+}
 
 .topBar{
-  width:100%;
-  display:flex;
-  gap:14px;
-  padding:18px;
-  background:#0b0b0b;
-  border-bottom:2px solid #2c2c2c;
-  position:sticky;
-  top:0;
-  z-index:100;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  padding:10px;
+  background:#101010;
 }
 
 .topCard{
-  flex:1;
-  background:linear-gradient(180deg,#1d1d1d,#101010);
-  border:2px solid #2e2e2e;
-  border-radius:18px;
-  padding:12px;
-  box-shadow:0 0 20px rgba(255,191,0,.15);
+  background:#171717;
+  border:2px solid #333;
+  border-radius:14px;
+  padding:10px;
 }
 
 .topLabel{
-  color:#f5bf21;
+  color:#ffd400;
   font-size:12px;
-  margin-bottom:6px;
   font-weight:bold;
 }
 
 .topCard div:last-child{
-  font-size:26px;
+  font-size:22px;
   font-weight:bold;
 }
 
-.levelCard{
-  min-width:200px;
-}
-
 .xpBar{
-  width:100%;
-  height:12px;
-  background:#1a1a1a;
-  border-radius:999px;
-  margin-top:10px;
+  height:10px;
+  background:#000;
+  border-radius:20px;
   overflow:hidden;
+  margin-top:6px;
 }
 
 #xpFill{
-  width:25%;
   height:100%;
-  background:linear-gradient(90deg,#ffd400,#ff9900);
-  border-radius:999px;
+  width:20%;
+  background:#ffd400;
 }
-
-/* FACTORY */
 
 .factoryArea{
-  display:flex;
-  width:100%;
+  display:grid;
+  grid-template-columns:74px 1fr;
+  min-height:calc(100vh - 160px);
+  background:#090909;
 }
 
-/* LEFT PIPE */
-
 .leftPipe{
-  width:110px;
-  background:linear-gradient(180deg,#d89b00,#6f5200);
-  position:relative;
+  background:linear-gradient(#e0a900,#7c5a00);
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding-top:30px;
-  gap:28px;
-}
-
-.pipeGlow{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:linear-gradient(
-    180deg,
-    rgba(255,255,255,.25),
-    transparent
-  );
-  pointer-events:none;
+  gap:22px;
+  padding-top:25px;
 }
 
 .pipeIcon{
-  width:64px;
-  height:64px;
-  border-radius:18px;
-  background:#111;
-  border:2px solid #f6c200;
+  width:50px;
+  height:50px;
+  border-radius:14px;
+  background:#171717;
+  border:2px solid #ffd400;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:28px;
-  box-shadow:0 0 18px rgba(255,196,0,.35);
+  font-size:24px;
 }
-
-/* MAIN */
 
 .factoryMain{
-  flex:1;
-  padding:24px;
+  padding:14px;
 }
 
-/* MACHINE */
-
 .machineSection{
-  margin-bottom:30px;
+  margin-bottom:18px;
 }
 
 .machineBox{
-  width:260px;
-  height:180px;
-  background:linear-gradient(180deg,#4f4f4f,#1b1b1b);
-  border-radius:24px;
-  border:3px solid #5f5f5f;
+  width:160px;
+  height:115px;
+  background:linear-gradient(#555,#1a1a1a);
+  border:2px solid #666;
+  border-radius:20px;
   position:relative;
-  box-shadow:0 0 35px rgba(0,0,0,.7);
 }
 
 .machineTop{
-  width:170px;
-  height:24px;
-  background:#666;
+  width:110px;
+  height:20px;
+  background:#777;
+  border-radius:20px;
   position:absolute;
-  top:-14px;
-  left:30px;
-  border-radius:30px;
+  top:-12px;
+  left:25px;
 }
 
 .machineFront{
-  width:120px;
-  height:120px;
-  background:#111;
-  border:4px solid #e5ad00;
-  border-radius:24px;
+  width:72px;
+  height:72px;
+  border:4px solid #ffd400;
+  border-radius:20px;
   position:absolute;
-  top:30px;
-  left:65px;
+  top:25px;
+  left:43px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:52px;
-  box-shadow:0 0 25px rgba(255,183,0,.3);
+  font-size:34px;
 }
-
-/* CONVEYOR */
 
 .conveyor{
-  margin-top:24px;
-  width:100%;
-  height:90px;
-  background:#121212;
-  border-radius:20px;
-  border:2px solid #2c2c2c;
+  height:62px;
+  margin-top:15px;
+  background:#151515;
+  border:2px solid #333;
+  border-radius:16px;
   display:flex;
   align-items:center;
-  gap:35px;
-  padding:0 30px;
+  gap:20px;
+  padding:0 18px;
   overflow:hidden;
-  position:relative;
-}
-
-.conveyor::before{
-  content:"";
-  position:absolute;
-  width:200%;
-  height:8px;
-  background:repeating-linear-gradient(
-    90deg,
-    #2d2d2d 0px,
-    #2d2d2d 25px,
-    #444 25px,
-    #444 50px
-  );
-  bottom:18px;
-  left:0;
-  animation:beltMove 3s linear infinite;
-}
-
-@keyframes beltMove{
-  from{
-    transform:translateX(0);
-  }
-  to{
-    transform:translateX(-50px);
-  }
 }
 
 .jar{
-  width:46px;
-  height:58px;
-  background:linear-gradient(180deg,#ffdd52,#be7700);
-  border-radius:10px;
-  position:relative;
-  z-index:2;
-  animation:jarBounce 2s infinite ease-in-out;
+  width:32px;
+  height:42px;
+  background:linear-gradient(#ffe066,#c98300);
+  border-radius:8px;
 }
-
-.jar::before{
-  content:"";
-  position:absolute;
-  width:100%;
-  height:10px;
-  background:#1b1b1b;
-  top:-8px;
-  border-radius:5px;
-}
-
-@keyframes jarBounce{
-  0%,100%{
-    transform:translateY(0);
-  }
-  50%{
-    transform:translateY(-5px);
-  }
-}
-
-/* STAGES */
 
 #stagesContainer{
   display:flex;
   flex-direction:column;
-  gap:22px;
+  gap:12px;
 }
 
 .stageCard{
-  width:100%;
-  background:linear-gradient(180deg,#111,#070707);
-  border:2px solid #2a2a2a;
-  border-radius:26px;
-  display:flex;
+  background:#151515;
+  border:2px solid #333;
+  border-radius:16px;
   overflow:hidden;
-  box-shadow:0 0 30px rgba(0,0,0,.55);
 }
 
 .stageInfo{
-  width:260px;
-  padding:24px;
-  border-right:2px solid #232323;
+  padding:12px;
 }
 
 .stageTitle{
-  color:#ffd400;
-  font-size:34px;
+  font-size:18px;
   font-weight:bold;
+  color:#ffd400;
 }
 
 .stageRate{
-  margin-top:12px;
-  color:#ccc;
-  font-size:22px;
+  font-size:14px;
+  color:#ddd;
+  margin-top:4px;
 }
 
 .honeyGrid{
-  flex:1;
-  min-height:220px;
+  height:110px;
   position:relative;
-  overflow:hidden;
   background:
-  linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)),
-  radial-gradient(circle at center,#2d2100,#0c0c0c);
+    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+    radial-gradient(circle,#4a3600,#111);
+  overflow:hidden;
 }
 
 .hexPattern{
   position:absolute;
   inset:0;
-  opacity:.18;
-  background-size:70px 60px;
-  background-image:
-  radial-gradient(circle at 35px 30px,#f3bf1a 7px,transparent 8px);
+  opacity:.35;
+  background-size:42px 36px;
+  background-image:radial-gradient(circle at 21px 18px,#ffd400 5px,transparent 6px);
 }
 
 .stageBees{
@@ -295,170 +192,69 @@ body{
 
 .gameBee{
   position:absolute;
-  width:70px;
-  height:70px;
+  width:42px;
+  height:42px;
   background-size:contain;
   background-repeat:no-repeat;
   background-position:center;
-  animation:flyFloat 4s infinite ease-in-out;
-  filter:drop-shadow(0 0 10px rgba(255,196,0,.35));
+  animation:flyFloat 3s infinite ease-in-out;
 }
 
 @keyframes flyFloat{
-  0%{
-    transform:translateY(0) rotate(0deg);
-  }
-
-  50%{
-    transform:translateY(-12px) rotate(3deg);
-  }
-
-  100%{
-    transform:translateY(0) rotate(0deg);
-  }
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
 }
 
-/* BUTTON AREA */
-
 .stageRight{
-  width:240px;
-  border-left:2px solid #232323;
   display:flex;
-  flex-direction:column;
   align-items:center;
-  justify-content:center;
-  gap:18px;
+  justify-content:space-between;
+  padding:10px;
+  border-top:2px solid #292929;
 }
 
 .upgradeBtn{
-  width:180px;
-  height:70px;
-  border:none;
-  border-radius:18px;
-  background:linear-gradient(180deg,#69e93c,#278d18);
+  background:linear-gradient(#70e84a,#258b16);
   color:white;
-  font-size:28px;
+  border:none;
+  border-radius:10px;
+  padding:10px 16px;
   font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 0 18px rgba(75,255,54,.3);
-  transition:.2s;
-}
-
-.upgradeBtn:hover{
-  transform:scale(1.05);
 }
 
 .priceTag{
-  font-size:30px;
-  color:#f7c91b;
+  color:#ffd400;
   font-weight:bold;
 }
 
-/* BOTTOM NAV */
-
 .bottomNav{
-  width:100%;
-  height:100px;
-  background:#090909;
-  border-top:2px solid #262626;
+  height:72px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  background:#0b0b0b;
+  border-top:2px solid #333;
   position:sticky;
   bottom:0;
-  display:flex;
-  z-index:100;
 }
 
 .navBtn{
-  flex:1;
-  border:none;
   background:none;
-  color:#aaa;
-  font-size:26px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  cursor:pointer;
-  transition:.2s;
+  border:none;
+  color:#bbb;
+  font-size:20px;
 }
 
 .navBtn span{
-  font-size:15px;
+  display:block;
+  font-size:12px;
 }
 
 .navBtn.active{
-  background:#f0b800;
-  color:black;
+  background:#f1b900;
+  color:#000;
   font-weight:bold;
 }
 
-.navBtn:hover{
-  background:#181818;
-}
-
-/* PARTICLES */
-
 #beeParticles{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  overflow:hidden;
-}
-
-.particleBee{
-  position:absolute;
-  width:32px;
-  height:32px;
-  background-size:contain;
-  background-repeat:no-repeat;
-  opacity:.7;
-  animation:particleFly linear infinite;
-}
-
-@keyframes particleFly{
-  from{
-    transform:translateX(-100px) translateY(0);
-  }
-
-  to{
-    transform:translateX(calc(100vw + 100px)) translateY(-80px);
-  }
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-  .topBar{
-    flex-direction:column;
-  }
-
-  .factoryArea{
-    flex-direction:column;
-  }
-
-  .leftPipe{
-    width:100%;
-    height:100px;
-    flex-direction:row;
-    justify-content:center;
-  }
-
-  .stageCard{
-    flex-direction:column;
-  }
-
-  .stageInfo{
-    width:100%;
-    border-right:none;
-    border-bottom:2px solid #222;
-  }
-
-  .stageRight{
-    width:100%;
-    padding:20px;
-    border-left:none;
-    border-top:2px solid #222;
-  }
-
+  display:none;
 }
